@@ -8,6 +8,9 @@ const auth = require("./jwt-strategy");
 // const bcrypt = require("bcrypt");
 require("dotenv").config();
 
+// Middlware
+const isLoggedIn = require('./middleware/isLoggedIn')
+
 //Routers and Services
 const UserRouter = require("./Routers/UserRouter")
 const UserService = require("./Services/UserService")
@@ -25,7 +28,7 @@ const userService = new UserService(knex)
 app.use("/user", new UserRouter(userService, express).router())
 
 const folioService = new FolioService(knex)
-app.use("/folio", new FolioRouter(folioService, express).router())
+app.use("/folio", isLoggedIn, new FolioRouter(folioService, express).router())
 
 
 

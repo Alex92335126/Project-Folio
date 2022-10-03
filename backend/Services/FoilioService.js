@@ -14,14 +14,19 @@ class FolioService {
         const cashPortfolio = await this.knex("cash_acc").select(
             "cash_balance"
         ).where({accountID: id})
-        const assetPortfolio = await this.knex("asset_acc").select(
-            "stockID",
-            "num_shares"
-        ).where({accountID: id});
+        const assetPortfolio = await this.knex.select(
+            "stock.stock_name",
+            "stock.symbol",
+            "asset_acc.stockID",
+            "asset_acc.num_shares",
+        )
+        .from("asset_acc")
+        .innerJoin("stock", "asset_acc.stockID", "stock.id")
+        .where({accountID: id});
         console.log('cash port', cashPortfolio)
         console.log('asset port', assetPortfolio)
         totalAsset.push(cashPortfolio[0])
-        totalAsset.push(assetPortfolio[0])
+        totalAsset.push(assetPortfolio)
         return totalAsset; 
     }
 
@@ -32,15 +37,29 @@ class FolioService {
     }
 
     async getAssetFolio(id) {
-        const price = await this.knex("asset_acc").select(
-            "stockID",
-            "num_shares"
-        ).where({accountID: id});
+        let resList = []
+        const assetList = await this.knex('asset_acc')
+        .join("stock", "stock.id", "asset_acc.stockID")
+        .select("stock.id", "asset_acc.num_shares", 'stock.stock_name', 'stock.symbol')
+        .where({accountID: id});
+        console.log('asset list', assetList)
+        try {
+            for (let asset of assetList) {
+                const res = await this.getStockPrice(asset.symbol)
+                let list = {...asset, amount: parseInt(asset.num_shares) * res.c, sharePrice: res.c}
+                resList.push(list)
+            }
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+        return resList
     }
 
     getStockPrice = async (stock) => {
         const res = await axios.get(`https://finnhub.io/api/v1/quote?symbol=${stock}&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg`)
         console.log('stock price: ', res.data)
+        return res.data
     }
 
     getCryptoPrice = async (tokenId) => {

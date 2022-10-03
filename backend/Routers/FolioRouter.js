@@ -7,7 +7,9 @@ class FolioRouters {
   
     router() {
       let router = this.express.Router();
-      router.post("/", this.getPortfolio.bind(this));
+      router.get("/", this.geUsertPortfolio.bind(this));
+      router.get("/cash", this.getCashPortfolio.bind(this));
+      router.get("/asset", this.getAssetPortfolio.bind(this));
       router.put("/buy", this.postBuyOrder.bind(this));
       // router.post("/", this.addEvent.bind(this));
       // router.put("/", this.putEvent.bind(this));
@@ -16,11 +18,11 @@ class FolioRouters {
     }
 
     //portfolio (get) 
-    async getPortfolio(req, res) {
-        console.log("body", req.body.account)
+    async geUsertPortfolio(req, res) {
+        console.log("user", req.user)
         try {
             const showPortfolio = await this.folioService.getPortfolio(
-                req.body.account
+                req.user.id
             );
             res.json(showPortfolio);
         } catch (error) {
@@ -28,6 +30,29 @@ class FolioRouters {
         }
     }
 
+    async getCashPortfolio(req, res) {
+      console.log("user", req.user)
+      try {
+          const showPortfolio = await this.folioService.getCashFolio(
+              req.user.id
+          );
+          res.json(showPortfolio);
+      } catch (error) {
+          res.status(500).send(error); 
+      }
+  }
+
+  async getAssetPortfolio(req, res) {
+    console.log("user", req.user)
+    try {
+        const showPortfolio = await this.folioService.getAssetFolio(
+            req.user.id
+        );
+        res.json(showPortfolio);
+    } catch (error) {
+        res.status(500).send(error); 
+    }
+}
 
     //buy order (put)
     async postBuyOrder(req, res) {
