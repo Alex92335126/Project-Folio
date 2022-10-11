@@ -7,6 +7,7 @@ const knex = require("knex")(knexFile);
 const auth = require("./jwt-strategy");
 // const bcrypt = require("bcrypt");
 require("dotenv").config();
+const fs = require("fs");
 
 // Middlware
 const isLoggedIn = require('./middleware/isLoggedIn')
@@ -30,7 +31,10 @@ app.use("/user", new UserRouter(userService, express).router())
 const folioService = new FolioService(knex)
 app.use("/folio", isLoggedIn, new FolioRouter(folioService, express).router())
 
-
+// app.get("/getstock", (req,res) => {
+//     const data = fs.readFileSync("./stockticker.json", "utf-8")
+//     console.log(JSON.parse(data))
+// })
 
 //Route
 // app.post("/auth/signup", async (req, res) => {

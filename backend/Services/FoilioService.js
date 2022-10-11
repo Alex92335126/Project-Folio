@@ -84,26 +84,25 @@ class FolioService {
 
 
 
-    // --buy order-- (put)
+    // --buy order-- (p)
 
     async postBuyOrder(
-        name,
         symbol,
-        num_shares,
         price,
+        numShares,
         // cash_balance,
         id
     ) {
         let newStockID
-        const buyAmount = num_shares * price
+        const buyAmount = numShares * price
         const cashinAcct = await this.knex("cash_acc").select("cash_balance").where({accountID: id})
         const updatedCashBal = parseInt(cashinAcct[0].cash_balance) - buyAmount
         let stockID = await this.knex("stock").select("id").where({symbol})
-        console.log("enough money", parseInt(cashinAcct[0].cash_balance) > buyAmount, "buy amount", buyAmount, "cash", parseInt(cashinAcct[0].cash_balance))
-        console.log("stockId", stockID)
-        console.log("updated cash bal", updatedCashBal)
-        console.log("has stockID", Array.isArray(stockID))
-        console.log("has boolean stockID =======> ", stockID && stockID.length > 0)
+        // console.log("enough money", parseInt(cashinAcct[0].cash_balance) > buyAmount, "buy amount", buyAmount, "cash", parseInt(cashinAcct[0].cash_balance))
+        // console.log("stockId", stockID)
+        // console.log("updated cash bal", updatedCashBal)
+        // console.log("has stockID", Array.isArray(stockID))
+        // console.log("has boolean stockID =======> ", stockID && stockID.length > 0)
         if(!(stockID && stockID.length > 0)) {
             console.log("add to knex", name, symbol)
             stockID = await this.knex("stock").insert({
@@ -111,28 +110,43 @@ class FolioService {
                 symbol
             }).returning("id")
         }
-        console.log("knex stockId =====> ", stockID)
+        // console.log("knex stockId =====> ", stockID)
         if (parseInt(cashinAcct[0].cash_balance) > buyAmount) {
-            console.log("stockid", stockID[0].id)
-            console.log("account id", id)
+            // console.log("stockid", stockID[0].id)
+            // console.log("account id", id)
             const buyAsset = this.knex.transaction(async(trx)=> {
-                await trx.insert({
-                    accountID: id,
-                    num_shares,
-                    stockID: stockID[0].id
-                }).into("asset_acc").returning("id")
+                try {
+                    let asset_acc = await this.knex("asset_acc").where({
+                        accountID: id,
+                        stockID: stockID[0].id
+                    }).first();
+                    if (asset_acc) {
+                        let currentShare = await this.knex("asset_acc").select("num_shares").where({accountID: id,stockID: stockID[0].id}).first()
+                        await trx.update({ 
+                            num_shares: Number(currentShare.num_shares) + Number(numShares),
+                        }).where({accountID: id,stockID: stockID[0].id}).into("asset_acc")
+                    } else {
+                        await trx.insert({
+                            accountID: id,
+                            num_shares: numShares,
+                            stockID: stockID[0].id
+                        }).into("asset_acc")
+                    }
                 await trx.insert({
                     accountID: id,
                     stockID: stockID[0].id,
                     trade: 'buy',
-                    num_shares,
+                    num_shares: numShares,
                     price,
                 }).into("trades").returning("id")
                 await trx.update({
                     cash_balance: updatedCashBal
                 }).into("cash_acc").where({accountID: id})
+                return trx.commit;
+            } catch(err) {
+               return trx.rollback
+            }
             });
-            return 
         } else {
             return "insufficient balance"
         }
@@ -140,17 +154,50 @@ class FolioService {
         
     }
 
-    // stock ID price x num_shares,
-    // price api call? frontend?
-    // check if cash_acc has enough cash 
-    // if trade success 
-    // update (put) cash_acc and asset_acc 
-
-    async buy() {
-
-    }
-
     // --sell--
+
+    async putSellOrder(
+        symbol,
+        price,
+        numShares,
+        id
+    ) {
+        let sellAmount = numShares * price
+        const stockID = await this.knex("stock").select("id").where({symbol})
+        const assetOutAcct = await this.knex("asset_acc").select("num_shares").where({stockID: stockID[0].id})
+        const updatedAssetBal = parseInt(assetOutAcct[0].num_shares) - numShares
+        console.log("asset", assetOutAcct)
+        console.log("num shares", numShares)
+        console.log("updated asset bal", updatedAssetBal)
+        const cashinAcct = await this.knex("cash_acc").select("cash_balance").where({accountID: id})
+        const cashBalUpdate= sellAmount + parseInt(cashinAcct[0].cash_balance)
+        
+        if (parseInt(assetOutAcct[0].num_shares) >= numShares) {
+
+            this.knex.transaction(async(trx)=> {
+                await trx.update({   
+                    num_shares: updatedAssetBal,
+                }).where({accountID: id,stockID: stockID[0].id}).into("asset_acc").returning("id")
+                await trx.insert({
+                    accountID: id,
+                    stockID: stockID[0].id,
+                    trade: 'sell',
+                    num_shares: numShares,
+                    price,
+                }).into("trades").returning("id")
+                await trx.update({
+                    cash_balance: cashBalUpdate
+                }).into("cash_acc").where({accountID: id})
+            });
+            return 
+        } else {
+            return "insufficient balance"
+        }
+    }   
+
+    
+
+
 
     // check if asset_acc has enough stock 
     // if trade success 

@@ -3,8 +3,14 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function BuySell () {
+    let token = localStorage.getItem("TOKEN")
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = "Bearer " + token
+    }, [token])
+
     const [buy, setBuy] = useState({
         symbol: "",
         num_shares: "",
@@ -16,12 +22,12 @@ export default function BuySell () {
         price: ""
     })
 
-    const handleBuy = () => {
-        console.log(buy)
+    const handleBuy = async () => {
+        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy)
     }
 
-    const handleSell = () => {
-        console.log(sell)
+    const handleSell = async () => {
+        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell)
     }
 
     const getPrice = async() => {

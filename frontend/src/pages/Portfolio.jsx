@@ -44,12 +44,15 @@ export default function Portfolio() {
         Total: {assetList.totalBal}
         Cash Balance:{assetList.cashBal}
             <table>
+                <thead>
             <tr>
             <th>Symbol</th>
             <th>Number of share</th>
             <th>Market price</th>
             <th>Current Amount</th>
             </tr>
+            </thead>
+            <tbody>
         {assetList.assetPortfolio.map((asset) => (
             <tr key={asset.id}>
                 <td>{asset.symbol}</td>
@@ -58,6 +61,7 @@ export default function Portfolio() {
                 <td>{asset.amount}</td>
             </tr>
         ))}
+        </tbody>
         </table>
         <div>
         <BuySell />

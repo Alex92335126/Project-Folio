@@ -11,7 +11,8 @@ class FolioRouters {
       router.get("/cash", this.getCashPortfolio.bind(this));
       router.get("/asset", this.getAssetPortfolio.bind(this));
       router.post("/buy", this.postBuyOrder.bind(this));
-      // router.put("/sell", this.putSellOrder.bind(this));
+   
+      router.put("/sell", this.putSellOrder.bind(this));
       // router.post("/", this.addEvent.bind(this));
       // router.put("/", this.putEvent.bind(this));
       // router.delete("/del/:eventId", this.deleteEvent.bind(this));
@@ -55,11 +56,12 @@ class FolioRouters {
     }
 }
 
-    //buy order (put)
+    //buy order (post)
     async postBuyOrder(req, res) {
+      console.log("buy")
         try {
           const buyOrder = await this.folioService.postBuyOrder(
-            req.body.name,
+            // req.body.name,
             req.body.symbol,
             req.body.price,
             // req.body.cash_balance,
@@ -71,6 +73,20 @@ class FolioRouters {
           res.status(500).send(error);
         }
       }
+    //sell order (put)
+    async putSellOrder(req, res) {
+      try {
+        const sellOrder = await this.folioService.putSellOrder(
+          req.body.symbol,
+          req.body.price,
+          req.body.num_shares,
+          req.user.id
+        );
+        res.json(sellOrder);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+    }
 
 };
 
