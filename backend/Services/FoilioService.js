@@ -121,11 +121,13 @@ class FolioService {
                         stockID: stockID[0].id
                     }).first();
                     if (asset_acc) {
+                        console.log("asset acc", asset_acc)
                         let currentShare = await this.knex("asset_acc").select("num_shares").where({accountID: id,stockID: stockID[0].id}).first()
                         await trx.update({ 
                             num_shares: Number(currentShare.num_shares) + Number(numShares),
                         }).where({accountID: id,stockID: stockID[0].id}).into("asset_acc")
                     } else {
+                        console.log('no asset acc')
                         await trx.insert({
                             accountID: id,
                             num_shares: numShares,

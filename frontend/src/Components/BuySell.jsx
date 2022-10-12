@@ -27,7 +27,8 @@ export default function BuySell () {
     }
 
     const handleSell = async () => {
-        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell)
+        console.log('hi sell', sell)
+        await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell)
     }
 
     const getPrice = async() => {
