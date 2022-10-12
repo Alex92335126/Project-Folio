@@ -13,13 +13,11 @@ class FolioRouters {
       router.post("/buy", this.postBuyOrder.bind(this));
    
       router.put("/sell", this.putSellOrder.bind(this));
-      // router.post("/", this.addEvent.bind(this));
-      // router.put("/", this.putEvent.bind(this));
-      // router.delete("/del/:eventId", this.deleteEvent.bind(this));
+      router.delete("/del/:accountId", this.deleteUser.bind(this));
       return router;
     }
 
-    //portfolio (get) 
+    //get portfolio (get) 
     async geUsertPortfolio(req, res) {
         console.log("user", req.user)
         try {
@@ -83,6 +81,20 @@ class FolioRouters {
           req.user.id
         );
         res.json(sellOrder);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+    }
+
+    //delete accountID (delete)
+    async deleteUser (req, res) {
+      let user = req.user;
+      console.log("del event", user)
+      try{
+        const delUser = await this.folioService.deleteUser(
+          account.id, 
+          req.params.accountId);
+        res.json(delUser);
       } catch (error) {
         res.status(500).send(error);
       }

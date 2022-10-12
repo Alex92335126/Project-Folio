@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import getStockPrice from "../utils/getStockPrice";
 
 export default function BuySell () {
     let token = localStorage.getItem("TOKEN")
@@ -31,8 +32,15 @@ export default function BuySell () {
         await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell)
     }
 
-    const getPrice = async() => {
-
+    const getPrice = async (stock, type) => {
+        console.log('stock', stock, type)
+        const price = await getStockPrice(stock.toUpperCase())
+        if(type === "B") {
+            setBuy({...buy, price})
+        } else {
+            console.log('sell')
+            setSell({...sell, price})
+        }
     }
 
 
@@ -49,7 +57,9 @@ export default function BuySell () {
                             type="text" 
                             name="symbol"
                             value={buy.symbol}
+                            style={{textTransform:"uppercase"}}
                             onChange={(e) => setBuy({...buy, symbol: e.target.value})}
+                            onBlur={(e) => getPrice(e.target.value, "B")}
                         />
                     </label>
                 </div>
@@ -87,7 +97,9 @@ export default function BuySell () {
                             type="text" 
                             name="symbol"
                             value={sell.symbol}
+                            style={{textTransform:"uppercase"}}
                             onChange={(e) => setSell({...sell, symbol: e.target.value})}
+                            onBlur={(e) => getPrice(e.target.value, "S")}
                         />
                     </label>
                 </div>

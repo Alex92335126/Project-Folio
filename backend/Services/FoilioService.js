@@ -94,20 +94,21 @@ class FolioService {
         id
     ) {
         let newStockID
+        console.log("symbol", symbol)
         const buyAmount = numShares * price
         const cashinAcct = await this.knex("cash_acc").select("cash_balance").where({accountID: id})
         const updatedCashBal = parseInt(cashinAcct[0].cash_balance) - buyAmount
-        let stockID = await this.knex("stock").select("id").where({symbol})
-        // console.log("enough money", parseInt(cashinAcct[0].cash_balance) > buyAmount, "buy amount", buyAmount, "cash", parseInt(cashinAcct[0].cash_balance))
-        // console.log("stockId", stockID)
-        // console.log("updated cash bal", updatedCashBal)
-        // console.log("has stockID", Array.isArray(stockID))
-        // console.log("has boolean stockID =======> ", stockID && stockID.length > 0)
+        let stockID = await this.knex("stock").select("id").where({symbol: symbol.toUpperCase()})
+        console.log("enough money", parseInt(cashinAcct[0].cash_balance) > buyAmount, "buy amount", buyAmount, "cash", parseInt(cashinAcct[0].cash_balance))
+        console.log("stockId", stockID)
+        console.log("updated cash bal", updatedCashBal)
+        console.log("has stockID", Array.isArray(stockID))
+        console.log("has boolean stockID =======> ", stockID && stockID.length > 0)
         if(!(stockID && stockID.length > 0)) {
             console.log("add to knex", name, symbol)
             stockID = await this.knex("stock").insert({
                 stock_name: name,
-                symbol
+                symbol: symbol.toUpperCase()
             }).returning("id")
         }
         // console.log("knex stockId =====> ", stockID)
@@ -165,7 +166,7 @@ class FolioService {
         id
     ) {
         let sellAmount = numShares * price
-        const stockID = await this.knex("stock").select("id").where({symbol})
+        const stockID = await this.knex("stock").select("id").where({symbol: symbol.toUpperCase()})
         const assetOutAcct = await this.knex("asset_acc").select("num_shares").where({stockID: stockID[0].id})
         const updatedAssetBal = parseInt(assetOutAcct[0].num_shares) - numShares
         console.log("asset", assetOutAcct)
@@ -197,10 +198,22 @@ class FolioService {
         }
     }   
 
+    // Delete Account ID 
+    async delUser(accountId) {
+        console.log("accountId", accountId);
+       return await this.knex("account")
+        .del()
+        .where({
+          account_id: accountId,
+        })
+    }
+
     
-
-
-
+    
+    
+    
+    
+};
     // check if asset_acc has enough stock 
     // if trade success 
     // update (put) cash_acc and asset_acc 
@@ -213,7 +226,6 @@ class FolioService {
 
     // list out top 10 account ID which is ordered by portfolio return 
 
-};
 
 // https://finnhub.io/api/v1/quote?symbol=GOOGL&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg
 //https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
@@ -221,24 +233,24 @@ class FolioService {
 module.exports = FolioService;
 
 
-tokenList = [
-    {
-        symbol:"solana",
-        numOfShares: 30
-    }, 
-    {
-        symbol:"bitcoin",
-        numOfShares:20
-    },
-    { 
-        symbol: "ethereum",
-        numOfShares:2
-    }, 
-    {
-        symbol:"matic-network", 
-        numOfShares: 55
-    }
-]
+// tokenList = [
+//     {
+//         symbol:"solana",
+//         numOfShares: 30
+//     }, 
+//     {
+//         symbol:"bitcoin",
+//         numOfShares:20
+//     },
+//     { 
+//         symbol: "ethereum",
+//         numOfShares:2
+//     }, 
+//     {
+//         symbol:"matic-network", 
+//         numOfShares: 55
+//     }
+// ]
 
 // const perform3 = async (tokenId) => {
 //     const res = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`)

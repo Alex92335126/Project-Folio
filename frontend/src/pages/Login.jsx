@@ -30,7 +30,7 @@ export default function Login() {
     
     return (
         <>
-            <div className="">
+            <div className="login">
                 Login page
             </div>
             <div className="d-flex justify-content-center align-items-center flex-column">

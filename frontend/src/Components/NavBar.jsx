@@ -11,6 +11,11 @@ import { Router, Link } from 'react-router-dom';
 import { logout, logoutThunk } from '../redux/authSlice'
 
 
+// function Header() {
+//   // Import result is the URL of your image
+//   return <img src={logo} alt="Logo" />;
+// }
+
 let web3Modal
 if (typeof window !== 'undefined') {
   web3Modal = new Web3Modal({
@@ -66,24 +71,31 @@ export default function NavBar() {
   return (
     <div className='navigation-bar-header'> 
       <Nav
-        className='d-flex nav-bar justify-content-end'
+        className='d-flex nav-bar justify-content-between w-100'
         activeKey="/home"
         onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
       >
-        <Nav.Item>
-          <div className='cursor-pointer mx-2' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
-        </Nav.Item>
-        <Nav.Item>
-          {token?
-            <div className='cursor-pointer mx-2' onClick={logout}>Logout</div> :
-            <div className='cursor-pointer mx-2' onClick={()=> navigate ("/login")}>Login</div>}
-        </Nav.Item>
-        <Nav.Item>
-            <div className='cursor-pointer mx-2' onClick={()=> navigate ("/signup")}>SignUp</div>
-        </Nav.Item>
-        <Nav.Item>
-          <div className='cursor-pointer mx-2' onClick={()=> navigate("/buysell")}>Dashboard</div>
-        </Nav.Item>
+        <div>
+          <Nav.Item>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}><img src="/logo192.png" height={"55px"} width={"55px"}/></div>
+          </Nav.Item>
+        </div>
+        <div className='d-flex'>
+          <Nav.Item>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
+          </Nav.Item>
+          <Nav.Item>
+            {token?
+              <div className='cursor-pointer mx-3' onClick={logout}>Logout</div> :
+              <div className='cursor-pointer mx-3' onClick={()=> navigate ("/login")}>Login</div>}
+          </Nav.Item>
+          <Nav.Item>
+              <div className='cursor-pointer mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
+          </Nav.Item>
+          <Nav.Item>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate("/buysell")}>Dashboard</div>
+          </Nav.Item>
+        </div>
       </Nav>
     </div>
   );

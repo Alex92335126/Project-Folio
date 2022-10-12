@@ -40,11 +40,12 @@ export default function Portfolio() {
 
     return (
     <>
+    <div className="portfolio" style={{color: 'orange'}}>
         {/* {cashTotal} */}
         Total: {assetList.totalBal}
         Cash Balance:{assetList.cashBal}
             <table>
-                <thead>
+                <thead>        
             <tr>
             <th>Symbol</th>
             <th>Number of share</th>
@@ -66,6 +67,7 @@ export default function Portfolio() {
         <div>
         <BuySell />
         </div>
+    </div>
     </>
     );
 }
