@@ -24,16 +24,13 @@ export default function Login() {
     const submit = async () => {
         console.log('clicked me', login)
         dispatch(loginThunk(login))
-        .then(() => navigate("/"))
+        .then(() => navigate("/portfolio"))
     }
 
     
     return (
         <>
-            <div className="login">
-                Login page
-            </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
+            <div className="d-flex justify-content-center align-items-center flex-column login">
                 <div>
                     <label>
                         Username:

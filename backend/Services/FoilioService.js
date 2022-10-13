@@ -201,11 +201,27 @@ class FolioService {
     // Delete Account ID 
     async delUser(accountId) {
         console.log("accountId", accountId);
-       return await this.knex("account")
+       await this.knex("asset_acc")
         .del()
         .where({
-          account_id: accountId,
+          accountID: accountId,
         })
+        await this.knex("trades")
+        .del()
+        .where({
+          accountID: accountId,
+        })
+        await this.knex("cash_acc")
+        .del()
+        .where({
+          accountID: accountId,
+        })
+        await this.knex("account")
+        .del()
+        .where({
+            id: accountId,
+        })
+        return "deleted"
     }
 
     

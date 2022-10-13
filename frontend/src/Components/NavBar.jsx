@@ -93,7 +93,7 @@ export default function NavBar() {
               <div className='cursor-pointer mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
           </Nav.Item>
           <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate("/buysell")}>Dashboard</div>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate("/")}>Dashboard</div>
           </Nav.Item>
         </div>
       </Nav>

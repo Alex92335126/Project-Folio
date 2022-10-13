@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Button from 'react-bootstrap/Button'
 import { useDispatch } from "react-redux";
-import { loginThunk } from "../redux/authSlice";
+import { signupThunk } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
@@ -26,17 +26,14 @@ export default function Signup() {
 
     const submit = async () => {
         console.log('clicked me', login)
-        dispatch(loginThunk(login))
-        .then(() => navigate("/"))
+        dispatch(signupThunk(login))
+        .then(() => navigate("/portfolio"))
     }
 
 
     return (
         <>
-            <div>
-                Sigup Page
-            </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
+            <div className="d-flex justify-content-center align-items-center flex-column signup">
                 <div>
                     <label>
                         Username:
@@ -65,7 +62,7 @@ export default function Signup() {
                         <input
                             type="text" 
                             name="firstName"
-                            value={login.password}
+                            value={login.firstName}
                             onChange={handleChange}
                         />
                     </label>
@@ -76,7 +73,7 @@ export default function Signup() {
                         <input
                             type="text" 
                             name="lastName"
-                            value={login.password}
+                            value={login.lastName}
                             onChange={handleChange}
                         />
                     </label>
@@ -87,7 +84,7 @@ export default function Signup() {
                         <input
                             type="text" 
                             name="email"
-                            value={login.password}
+                            value={login.email}
                             onChange={handleChange}
                         />
                     </label>

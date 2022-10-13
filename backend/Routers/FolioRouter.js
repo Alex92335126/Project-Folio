@@ -88,11 +88,10 @@ class FolioRouters {
 
     //delete accountID (delete)
     async deleteUser (req, res) {
-      let user = req.user;
+      let user = req.params.accountId;
       console.log("del event", user)
       try{
-        const delUser = await this.folioService.deleteUser(
-          account.id, 
+        const delUser = await this.folioService.delUser( 
           req.params.accountId);
         res.json(delUser);
       } catch (error) {

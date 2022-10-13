@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left !important;
 }
 
 .navigation-bar-header{
@@ -39,14 +39,28 @@ td {
 }
 
 .login {
-  background-color: rgba(65, 62, 62, 0.375);
+  background-color: #2F2F30;
+  font: orange;
+  height: 95vh;
 }
 
 .portfolio {
-  background-color: 	#5A5A5A;
+  background-color: #2F2F30;
   font: orange;
+  height: 95vh;
 }
 
 .text-orange {
   color: 20px orange;
 }
+
+.buysell {
+  text-align: left !important;
+}
+
+.signup {
+  background-color: #2F2F30;
+  color: orange;
+  height: 95vh
+}
+

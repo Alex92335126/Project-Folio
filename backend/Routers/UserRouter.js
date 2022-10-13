@@ -12,12 +12,14 @@ class UserRouter {
         let router = this.express.Router();
         router.post("/signup", this.signup);
         router.post("/login", this.login);
+        router.get("/", this.getUser);
         return router
     }
 
     login = async (req, res) => {
         const { username, password } = req.body;
         let user = await this.userService.getUser(username)
+        console.log("router user", user)
         if (user) {
             let result = await bcrypt.compare(password, user.password);
 
@@ -35,14 +37,14 @@ class UserRouter {
     }
 
     signup = async (req, res) => {
-        const { username, password } = req.body;
-        console.log(username, password);
+        const { username, password, firstName, lastName, email } = req.body;
+        console.log("signup user", username, password);
         let query = await this.userService.getUser(username);
         const hashed = await bcrypt.hash(password, 10);
         console.log("signup query", query)
         if (query == undefined) {
             try {
-                await this.userService.addUser(username, hashed)
+                await this.userService.addUser(username, hashed, firstName, lastName, email)
                 res.json("signup complete");
             } catch (error) {
                 console.log("DB error", error)
@@ -50,6 +52,20 @@ class UserRouter {
             }
         } else {
             res.sendStatus(401).json({msg: "User exists"});
+        }
+    }
+
+    getUser = async(req, res) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        const tokenName = jwt.decode(token)
+        console.log(tokenName)
+        try {
+            const getUser = await this.userService.getUser(tokenName.username)
+            console.log("get user", getUser)
+            res.json({id: getUser.id, firstName: getUser.fname})
+        } catch (error) {
+            console.log(error)
         }
     }
 }

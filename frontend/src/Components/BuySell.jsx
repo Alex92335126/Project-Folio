@@ -5,12 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import getStockPrice from "../utils/getStockPrice";
+import { assetThunk } from "../redux/portfolioSlice";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function BuySell () {
     let token = localStorage.getItem("TOKEN")
     useEffect(() => {
         axios.defaults.headers.common['Authorization'] = "Bearer " + token
     }, [token])
+
+    const dispatch = useDispatch();
 
     const [buy, setBuy] = useState({
         symbol: "",
@@ -24,12 +28,26 @@ export default function BuySell () {
     })
 
     const handleBuy = async () => {
-        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy)
+        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
+        dispatch(assetThunk())
+        toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
+        setBuy({
+            symbol: "",
+            num_shares: "",
+            price: ""
+        })
     }
 
     const handleSell = async () => {
         console.log('hi sell', sell)
-        await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell)
+        await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
+        dispatch(assetThunk())
+        toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
+        setSell({
+            symbol: "",
+            num_shares: "",
+            price: ""
+        })
     }
 
     const getPrice = async (stock, type) => {
@@ -46,10 +64,19 @@ export default function BuySell () {
 
     return (
         <>
-            <div className="">
-                Transaction page
-            </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
+            <div className="buysell">
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                />
                 <div>
                     <label>
                         Symbol:
