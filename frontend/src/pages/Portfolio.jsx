@@ -6,90 +6,96 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import BuySell from "../Components/BuySell";
 import { getUserThunk } from "../redux/authSlice";
-
+import PieChart from "../Components/PieChart";
 
 export default function Portfolio() {
-    const [cashTotal, setCashTotal] = useState()
-    const dispatch = useDispatch();
-    const assetList = useSelector(
-    (state) => state.portFolioReducer
-    );
-    // console.log(assetList);
-    const cashBalance = useSelector(
-    (state) => state.portFolioReducer.cashBal
-    );
-    // console.log("cash", cashBalance);
-    const user = useSelector((state) => state.auth.user)
-    console.log('user state', user)
+  const [cashTotal, setCashTotal] = useState();
+  const dispatch = useDispatch();
+  const assetList = useSelector((state) => state.portFolioReducer);
+  // console.log(assetList);
+  const cashBalance = useSelector((state) => state.portFolioReducer.cashBal);
+  // console.log("cash", cashBalance);
+  const user = useSelector((state) => state.auth.user);
+  console.log("user state", user);
 
-    const getCashTotal = () => {
-    console.log("cash", cashBalance)
-    let assetAmount = assetList.assetPortfolio.map(item => item.amount).reduce((prev, next)=> prev+ next)
-    setCashTotal(assetAmount + cashBalance) 
+  const getCashTotal = () => {
+    console.log("cash", cashBalance);
+    let assetAmount = assetList.assetPortfolio
+      .map((item) => item.amount)
+      .reduce((prev, next) => prev + next);
+    setCashTotal(assetAmount + cashBalance);
     // console.log(assetAmount)
+  };
 
-    }
+  useEffect(() => {
+    getData();
+  }, []);
 
-    useEffect(() => {
-    getData()
-    }, []);
+  const getData = async () => {
+    await dispatch(getUserThunk());
+    await dispatch(assetThunk());
+    await dispatch(cashThunk());
+    // await getCashTotal()
+    await dispatch(getTotalBal());
+  };
 
-    const getData = async () => {
-        await dispatch(getUserThunk())
-        await dispatch(assetThunk());
-        await dispatch(cashThunk());
-        // await getCashTotal()
-        await dispatch(getTotalBal());
-    }
-
-    return (
-        <>
-    <div className="portfolio" style={{color: 'orange'}}>
-        <div className="py-4">Welcome Back {user.firstName}!</div>
+  return (
+    <>
+      <div className="portfolio" style={{ color: "orange" }}>
+        <h2 className="py-4">Welcome Back {user.firstName}!</h2>
         {/* {cashTotal} */}
 
-
-            <table>
-                <thead>        
+        <table>
+          <thead>
             <tr>
-            <th>Symbol</th>
-            <th>Number of share</th>
-            <th>Market price</th>
-            <th>Current Amount</th>
+              <th>Symbol</th>
+              <th>Number of share</th>
+              <th>Market price</th>
+              <th>Current Amount</th>
             </tr>
-            </thead>
-            <tbody>
-        {assetList.assetPortfolio.map((asset) => (
-            <tr key={asset.id}>
+          </thead>
+          <tbody>
+            {assetList.assetPortfolio.map((asset) => (
+              <tr key={asset.id}>
                 <td>{asset.symbol}</td>
                 <td>{asset.num_shares}</td>
                 <td>{asset.sharePrice}</td>
                 <td>{asset.amount}</td>
-            </tr>
-
-            
-        ))}
-        </tbody>
+              </tr>
+            ))}
+          </tbody>
         </table>
+        <div className="py-4" />
 
         <table>
-        <tbody>
-        <tr>
-            <td><strong>Cash Balance</strong></td>
-            <td>{assetList.cashBal}</td>
-        </tr>
-        <tr>
-
-            <td><strong>Total</strong></td>
-            <td>{assetList.totalBal}</td>
-        </tr>
-            </tbody>
-
+          <tbody>
+            <tr>
+              <td>
+                <strong >Cash Balance</strong>
+              </td>
+              <td>{assetList.cashBal}</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Total (Cash+Stock)</strong>
+              </td>
+              <td>{assetList.totalBal}</td>
+            </tr>
+          </tbody>
         </table>
+        <div className="py-2" />
         <div>
-        <BuySell />
+          <BuySell />
         </div>
-    </div>
+        <div style={{width: "400px"}}>
+
+        <PieChart
+                labelStyle={{
+                    fontSize: '20px'
+               }}
+         />
+        </div>
+      </div>
     </>
-    );
+  );
 }

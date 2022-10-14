@@ -30,7 +30,9 @@ export default function BuySell () {
     const handleBuy = async () => {
         await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
         dispatch(assetThunk())
-        toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
+        .then(() => {
+            toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
+        })
         setBuy({
             symbol: "",
             num_shares: "",
@@ -41,8 +43,8 @@ export default function BuySell () {
     const handleSell = async () => {
         console.log('hi sell', sell)
         await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
-        dispatch(assetThunk())
         toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
+        dispatch(assetThunk())
         setSell({
             symbol: "",
             num_shares: "",
@@ -64,7 +66,7 @@ export default function BuySell () {
 
     return (
         <>
-            <div className="buysell">
+            <div className="buy">
                 <ToastContainer
                     position="top-center"
                     autoClose={2000}
@@ -78,7 +80,7 @@ export default function BuySell () {
                     theme="dark"
                 />
                 <div>
-                    <label>
+                    <label className="symbol">
                         Symbol:
                         <input
                             type="text" 
@@ -112,11 +114,11 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <Button variant="primary" onClick={handleBuy}>
+                <Button variant="primary" size = "lg" onClick={handleBuy}>
                     BUY
                 </Button>
             </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
+            <div className="sell">
                 <div>
                     <label>
                         Symbol:
@@ -152,7 +154,7 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <Button variant="warning" onClick={handleSell}>
+                <Button variant="danger" size="lg" onClick={handleSell}>
                     SELL 
                 </Button>
             </div>

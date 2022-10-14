@@ -36,6 +36,7 @@ th {
 td {
   border: 2px solid orange !important;
   color: orange !important;
+  font-size: 20px;
 }
 
 .login {
@@ -47,15 +48,22 @@ td {
 .portfolio {
   background-color: #2F2F30;
   font: orange;
-  height: 95vh;
+  height: 150vh;
+
 }
 
 .text-orange {
   color: 20px orange;
 }
 
-.buysell {
-  text-align: left !important;
+.buy {
+  text-align: left;
+  font-size: 20px;
+}
+
+.sell {
+  text-align: left;
+  font-size: 20px;
 }
 
 .signup {
@@ -63,4 +71,13 @@ td {
   color: orange;
   height: 95vh
 }
+
+
+.chart {
+  background-color: orange;
+  box-sizing: border-box;
+  margin: 90px;
+  /* border: 12px solid #2F2F30; */
+}
+
 

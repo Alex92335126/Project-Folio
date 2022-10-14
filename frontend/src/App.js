@@ -7,6 +7,7 @@ import BuySell from './Components/BuySell';
 import NavBar from './Components/NavBar';
 import Portfolio from './pages/Portfolio';
 import RequireAuth from './Components/RequireAuth';
+import PieChart from './Components/PieChart';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/buysell" element={<BuySell />}></Route>
+          <Route path="/piechart" element={<PieChart />}></Route>
           <Route path="/portfolio" 
             element={
             <RequireAuth>
