@@ -37,10 +37,6 @@ export default function NavBar() {
       console.log('clicked connect')
       const provider = await web3Modal.connect()
       console.log('connected', provider)
-
-      // We plug the initial `provider` into ethers.js and get back
-      // a Web3Provider. This will add on methods from ethers.js and
-      // event listeners such as `.on()` will be different.
       const web3Provider = new providers.Web3Provider(provider)
       console.log('web3Provider', web3Provider)
 
@@ -77,7 +73,7 @@ export default function NavBar() {
       >
         <div>
           <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}><img src="/logo192.png" height={"55px"} width={"55px"}/></div>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}><img src="/gamelogo.png" height={"60px"} width={"400px"}/></div>
           </Nav.Item>
         </div>
         <div className='d-flex'>

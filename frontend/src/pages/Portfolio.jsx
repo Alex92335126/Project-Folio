@@ -87,6 +87,7 @@ export default function Portfolio() {
         <div>
           <BuySell />
         </div>
+        
         <div style={{width: "400px"}}>
 
         <PieChart

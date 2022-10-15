@@ -3,11 +3,12 @@ import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Signup from './pages/Signup';
 import HomePage from './pages/HomePage';
-import BuySell from './Components/BuySell';
 import NavBar from './Components/NavBar';
 import Portfolio from './pages/Portfolio';
 import RequireAuth from './Components/RequireAuth';
 import PieChart from './Components/PieChart';
+import Footer from './Components/Footer';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
@@ -17,7 +18,6 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/buysell" element={<BuySell />}></Route>
           <Route path="/piechart" element={<PieChart />}></Route>
           <Route path="/portfolio" 
             element={
@@ -25,7 +25,11 @@ function App() {
               <Portfolio />
             </RequireAuth>
           }/>
+          <Route path="/admin" element={<AdminPage />} />
+
+          
       </Routes>
+      <Footer />
     </>
   );
 }
