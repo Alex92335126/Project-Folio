@@ -13,6 +13,7 @@ class UserRouter {
         router.post("/signup", this.signup);
         router.post("/login", this.login);
         router.get("/", this.getUser);
+        router.post('/update-password', this.updatePassword)
         return router
     }
 
@@ -67,6 +68,11 @@ class UserRouter {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    updatePassword = async(req, res) => {
+
+
     }
 }
 

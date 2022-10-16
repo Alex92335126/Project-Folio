@@ -17,6 +17,10 @@ const UserRouter = require("./Routers/UserRouter")
 const UserService = require("./Services/UserService")
 const FolioRouter = require("./Routers/FolioRouter")
 const FolioService = require("./Services/FoilioService.js")
+const AdminRouter = require('./Routers/AdminRouter')
+const AdminService = require('./Services/AdminService')
+const EthRouter = require('./Routers/EthRouter')
+const EthService = require('./Services/EthService')
 
 //Setup Modules
 const app = express();
@@ -30,6 +34,12 @@ app.use("/user", new UserRouter(userService, express).router())
 
 const folioService = new FolioService(knex)
 app.use("/folio", isLoggedIn, new FolioRouter(folioService, express).router())
+
+const adminService = new AdminService(knex, folioService)
+app.use("/admin", new AdminRouter(adminService, express).router())
+
+const ethService = new EthService(knex)
+app.use('/eth', new EthRouter(ethService, express).router())
 
 // app.get("/getstock", (req,res) => {
 //     const data = fs.readFileSync("./stockticker.json", "utf-8")

@@ -18,6 +18,10 @@ class UserService {
             .into("cash_acc")
         })
     }
+
+    async updatePassword(id, oldPassword, newPassword) {
+        
+    }
 }
 
 module.exports = UserService;

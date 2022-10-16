@@ -19,6 +19,7 @@ class FolioService {
             "stock.symbol",
             "asset_acc.stockID",
             "asset_acc.num_shares",
+            "asset_acc.accountID"
         )
         .from("asset_acc")
         .innerJoin("stock", "asset_acc.stockID", "stock.id")
@@ -42,7 +43,7 @@ class FolioService {
         const assetList = await this.knex('asset_acc')
         .join("stock", "stock.id", "asset_acc.stockID")
         .select("stock.id", "asset_acc.num_shares", 'stock.stock_name', 'stock.symbol')
-        .where({accountID: id});
+        v
         console.log('asset list', assetList)
         try {
             for (let asset of assetList) {
