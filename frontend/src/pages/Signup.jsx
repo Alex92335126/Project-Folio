@@ -33,8 +33,10 @@ export default function Signup() {
 
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center flex-column signup">
-                <div>
+          
+            <div className="d-flex justify-content-center align-items-center flex-column py-4 border border-warning signup">
+            <h1 style={{marginLeft: "120px", marginBottom: "20px"}}> Sign Up</h1>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         Username:
                         <input
@@ -45,7 +47,7 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         Password:
                         <input
@@ -56,7 +58,7 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         First Name:
                         <input
@@ -67,7 +69,7 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         Last Name:
                         <input
@@ -78,7 +80,7 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         Email:
                         <input
@@ -86,10 +88,11 @@ export default function Signup() {
                             name="email"
                             value={login.email}
                             onChange={handleChange}
+    
                         />
                     </label>
                 </div>
-                <Button variant="primary" onClick={submit}>
+                <Button className="signupButton" variant="warning" onClick={submit}>
                     Submit
                 </Button>
             </div>

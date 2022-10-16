@@ -3,10 +3,11 @@ import Card from 'react-bootstrap/Card';
 
 function Footer() {
   return (
-    <Card className="text-center footer" style= {{ backgroundColor: "black", color: "#FFA500", font:"20px"  }}>
+    <Card className="text-center footer" style= {{ backgroundColor: "black", color: "#FFA500", font:"60px"  }}>
       <h2>About Us</h2>
       <Card.Body>
-        <Card.Title>Contact Us: gamefolio@gmail.com</Card.Title>
+         <span>Email Us:&nbsp;<a href="mailto:gamefolio@gmail.com">gamefolio@gmail.com</a></span>
+
         {/* <Card.Text>
           With supporting text below as a natural lead-in to additional content.
         </Card.Text> */}

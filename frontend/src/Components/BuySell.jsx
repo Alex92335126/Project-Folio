@@ -9,12 +9,16 @@ import { assetThunk } from "../redux/portfolioSlice";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function BuySell () {
+    const [transactionError, setTransactionError] = useState('')
+    const [sellError, setSellError] = useState('')
     let token = localStorage.getItem("TOKEN")
     useEffect(() => {
         axios.defaults.headers.common['Authorization'] = "Bearer " + token
     }, [token])
 
     const dispatch = useDispatch();
+    const cashBalance = useSelector((state) => state.portFolioReducer.cashBal);
+    const assetList = useSelector((state) => state.portFolioReducer.assetPortfolio);
 
     const [buy, setBuy] = useState({
         symbol: "",
@@ -28,28 +32,51 @@ export default function BuySell () {
     })
 
     const handleBuy = async () => {
-        await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
-        dispatch(assetThunk())
-        .then(() => {
-            toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
-        })
-        setBuy({
-            symbol: "",
-            num_shares: "",
-            price: ""
-        })
+        const canBuy = (buy.num_shares * buy.num_shares) <= cashBalance
+        console.log('canbuy', canBuy)
+        if(canBuy) {
+            await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
+            dispatch(assetThunk())
+            .then(() => {
+                toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
+            })
+            setBuy({
+                symbol: "",
+                num_shares: "",
+                price: ""
+            })
+        } else {
+            setTransactionError('Insufficient Funds')
+        }
     }
 
     const handleSell = async () => {
         console.log('hi sell', sell)
-        await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
-        toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
-        dispatch(assetThunk())
-        setSell({
-            symbol: "",
-            num_shares: "",
-            price: ""
-        })
+        console.log('asset list', assetList)
+        console.log('sell symbol', sell.symbol)
+        const isPartofFolio = assetList.find(item => item.symbol === sell.symbol.toUpperCase())
+        console.log('have stock', isPartofFolio)
+        // not enough shares 
+        // does not have shares at all
+        if(isPartofFolio === undefined) {
+            return setSellError("Stock not in portfolio")
+        } 
+        if(isPartofFolio) {
+            if(isPartofFolio.num_shares >= sell.num_shares) {
+                console.log('can sell')
+                await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
+                toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
+                dispatch(assetThunk())
+                setSell({
+                    symbol: "",
+                    num_shares: "",
+                    price: ""
+                })
+            } else {
+                return setSellError("Not enough shares")
+            }
+        }
+        
     }
 
     const getPrice = async (stock, type) => {
@@ -66,7 +93,7 @@ export default function BuySell () {
 
     return (
         <>
-            <div className="buy">
+            <div className="buy" >
                 <ToastContainer
                     position="top-center"
                     autoClose={2000}
@@ -79,8 +106,8 @@ export default function BuySell () {
                     pauseOnHover
                     theme="dark"
                 />
-                <div>
-                    <label className="symbol">
+                <div style={{marginTop: "-50px"}} >
+                    <label className="symbol" >
                         Symbol:
                         <input
                             type="text" 
@@ -92,20 +119,23 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px"}}>
                     <label>
-                        Number of Shares: 
+                        Shares: 
                         <input
-                            type="text" 
+                            type="number" 
                             name="num_shares"
                             value={buy.num_shares}
-                            onChange={(e) => setBuy({...buy, num_shares: e.target.value})}
+                            onChange={(e) => {
+                                setTransactionError('')
+                                setBuy({...buy, num_shares: e.target.value})
+                            }}
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px"}}>
                     <label>
-                        Price: 
+                        Price : 
                         <input
                             type="number" 
                             name="price"
@@ -114,12 +144,15 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <Button variant="primary" size = "lg" onClick={handleBuy}>
-                    BUY
-                </Button>
+                <div className="d-flex align-items-center">
+                    <div style={{color: "red", fontWeight: 'bold'}}>{transactionError}</div>
+                    <Button className="buyButton" style={{marginTop: "15px"}} variant="primary" size = "lg" onClick={handleBuy}>
+                        BUY
+                    </Button>
+                </div>
             </div>
             <div className="sell">
-                <div>
+                <div style={{marginTop: "15px"}}>
                     <label>
                         Symbol:
                         <input
@@ -132,20 +165,24 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px"}}>
                     <label>
-                        Number of Shares:
+                        Shares:
                         <input
-                            type="text" 
+                            type="number" 
                             name="num_shares"
                             value={sell.num_shares}
-                            onChange={(e) => setSell({...sell, num_shares: e.target.value})}
+                            onChange={(e) => {
+                                setSellError('')
+                                setSell({...sell, num_shares: e.target.value})
+                            }}
+                            
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px"}}>
                     <label>
-                        Price:
+                        Price  :
                         <input
                             type="text" 
                             name="price"
@@ -154,9 +191,12 @@ export default function BuySell () {
                         />
                     </label>
                 </div>
-                <Button variant="danger" size="lg" onClick={handleSell}>
-                    SELL 
-                </Button>
+                <div className="d-flex align-items-center">
+                    <div style={{color: "red", fontWeight: 'bold'}}>{sellError}</div>     
+                    <Button className="sellButton" style={{marginTop: "15px"}}  variant="danger" size="lg" onClick={handleSell}>
+                        SELL 
+                    </Button>
+                </div>
             </div>
             
 

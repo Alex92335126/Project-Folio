@@ -42,10 +42,10 @@ export default function Portfolio() {
   return (
     <>
     <div>
-      <div className="portfolio" style={{ color: "orange", display: ""}}>
+      <div className="portfolio" style={{ color: "orange"}}>
         <h2 className="py-4">Welcome Back {user.firstName}!</h2>
         {/* {cashTotal} */}
-        <div className="d-flex">
+        <div className="d-flex ">
             <div className="col-md-6">
                 <table>
                 <thead>
@@ -94,22 +94,23 @@ export default function Portfolio() {
                 </div>
                 </table>
             </div>
+
             <div className="py-4" />
-            <div className="col-md-6">
-                <div>
-                <BuySell />
-                </div>
+                <div className="col-md-6" style={{marginLeft: "100px"}}>
+                    <div>
+                        <BuySell />
+                    </div>
                 
-                <div style={{width: "400px"}}>
+                <div style={{width: "400px", fontSize: "20px", marginTop: "15px"}}>
 
                 <PieChart
                         labelStyle={{
                             fontSize: '20px'
                     }}
                 />
-            </div>
+                </div>
             
-        </div>
+            </div>
         </div>
       </div>
     </div>

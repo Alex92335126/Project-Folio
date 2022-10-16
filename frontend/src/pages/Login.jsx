@@ -30,8 +30,9 @@ export default function Login() {
     
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center flex-column login">
-                <div>
+            <div className="d-flex justify-content-center align-items-center flex-column login border border-warning" style={{color: "#FFA500"}}>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
+                    <h1 tyle={{marginLeft: "300px", marginBottom: "20px"}}>Log In</h1>
                     <label>
                         Username:
                         <input
@@ -42,7 +43,7 @@ export default function Login() {
                         />
                     </label>
                 </div>
-                <div>
+                <div style={{marginTop: "15px", fontSize:"20px"}}>
                     <label>
                         Password:
                         <input
@@ -53,7 +54,7 @@ export default function Login() {
                         />
                     </label>
                 </div>
-                <Button variant="primary" onClick={submit}>
+                <Button style={{marginTop: "15px"}} variant="warning" onClick={submit}>
                     Submit
                 </Button>
             </div>

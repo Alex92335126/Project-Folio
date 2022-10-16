@@ -21,9 +21,9 @@ export default function HomePage() {
     return (
         <div className="portfolio font-color" style={{color: "orange"}}>
             <h1>
-                GameFolio
+                Stock Chart
             </h1>
-            <div className="d-flex w-100 font-color">
+            <div className="d-flex w-100 font-color border border-warning">
                 <div className="col-md-4">
                     <Chartjs stock="AAPL" />
                 </div>
@@ -35,10 +35,10 @@ export default function HomePage() {
                 </div>
             </div>
             <div className="d-flex">
-                <div className="col-md-6 px-1">
+                <div className="col-md-6 px-1 border border-warning">
                     <OnDemandChart />
                 </div>
-                <div className="col-md-6 px-2" style={{overflowY: "scroll", height: "50vh"}}>
+                <div className="col-md-6 px-2 border border-warning" style={{overflowY: "scroll", height: "50vh", }}>
                     {news ? news.map((item) => (
                         <div className="py-2" key={item.id}>
                             {/* {item.datetime} */}

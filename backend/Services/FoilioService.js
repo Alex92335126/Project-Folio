@@ -43,7 +43,6 @@ class FolioService {
         const assetList = await this.knex('asset_acc')
         .join("stock", "stock.id", "asset_acc.stockID")
         .select("stock.id", "asset_acc.num_shares", 'stock.stock_name', 'stock.symbol')
-        v
         console.log('asset list', assetList)
         try {
             for (let asset of assetList) {

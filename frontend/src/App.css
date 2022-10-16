@@ -41,14 +41,13 @@ td {
 
 .login {
   background-color: #2F2F30;
-  font: orange;
-  height: 95vh;
+  height: 80vh;
 }
 
 .portfolio {
   background-color: #2F2F30;
   font: orange;
-  height: 150vh;
+  height: 100vh;
 
 }
 
@@ -66,10 +65,23 @@ td {
   font-size: 20px;
 }
 
+.sellButton {
+  margin-left: 200px;
+}
+
+.buyButton {
+  margin-left: 200px;
+}
+
 .signup {
   background-color: #2F2F30;
   color: orange;
-  height: 95vh
+  height: 80vh;
+
+}
+
+.signupEmail {
+  
 }
 
 
@@ -80,4 +92,7 @@ td {
   /* border: 12px solid #2F2F30; */
 }
 
+.signupButton {
+  margin-top: 20px;
+}
 
