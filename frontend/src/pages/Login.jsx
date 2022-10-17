@@ -32,7 +32,7 @@ export default function Login() {
         <>
             <div className="d-flex justify-content-center align-items-center flex-column login border border-warning" style={{color: "#FFA500"}}>
                 <div style={{marginTop: "15px", fontSize:"20px"}}>
-                    <h1 tyle={{marginLeft: "300px", marginBottom: "20px"}}>Log In</h1>
+                    <h1 style={{marginLeft: "130px", marginBottom: "20px"}}>Log In</h1>
                     <label>
                         Username:
                         <input

@@ -77,8 +77,14 @@ export default function NavBar() {
           </Nav.Item>
         </div>
         <div className='d-flex'>
+        <Nav.Item>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/scoreboard")}>Scoreboard</div>
+          </Nav.Item>
           <Nav.Item>
             <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
+          </Nav.Item>
+          <Nav.Item>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate("/")}>Dashboard</div>
           </Nav.Item>
           <Nav.Item>
             {token?
@@ -87,9 +93,6 @@ export default function NavBar() {
           </Nav.Item>
           <Nav.Item>
               <div className='cursor-pointer mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
-          </Nav.Item>
-          <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate("/")}>Dashboard</div>
           </Nav.Item>
         </div>
       </Nav>

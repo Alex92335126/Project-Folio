@@ -9,6 +9,8 @@ import RequireAuth from './Components/RequireAuth';
 import PieChart from './Components/PieChart';
 import Footer from './Components/Footer';
 import AdminPage from './pages/AdminPage';
+import Scoreboard from './pages/Scoreboard';
+
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/piechart" element={<PieChart />}></Route>
+          <Route path="/scoreboard" element={<Scoreboard />}></Route>
           <Route path="/portfolio" 
             element={
             <RequireAuth>
