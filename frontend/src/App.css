@@ -96,3 +96,12 @@ td {
   margin-top: 20px;
 }
 
+.scoreboard {
+  background-color: #2F2F30;
+  height:80vh;
+  border: 10px;
+  border-color: #FFA500;
+  display: flex;
+  justify-content: space-around;
+}
+
