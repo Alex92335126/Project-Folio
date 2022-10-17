@@ -24,7 +24,15 @@ export default function Login() {
     const submit = async () => {
         console.log('clicked me', login)
         dispatch(loginThunk(login))
-        .then(() => navigate("/portfolio"))
+        .then(() => {
+            const role = localStorage.getItem("ROLE")
+            if(role === "1") {
+                return navigate('/admin')
+            } else {
+                return navigate("/portfolio")
+            }
+
+        })
     }
 
     

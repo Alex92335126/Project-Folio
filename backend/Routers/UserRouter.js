@@ -30,7 +30,7 @@ class UserRouter {
                 username: user.username,
             };
             const token = jwt.sign(payload, process.env.JWT_SECRET);
-            res.json({ token });
+            res.json({ token, role: user.role });
             } else {
             res.sendStatus(401);
             }

@@ -39,13 +39,14 @@ class AdminService {
                 resList.push(list);
             }
             let id;
-            let obj = {username: '', totalAsset: 0, walletAddress:''};
+            let obj = {id: '', username: '', totalAsset: 0, walletAddress:''};
 
             for (let i=0; i < resList.length; i++) {
                 resList[i].amount = Number(resList[i].amount);
                 resList[i].cash_balance = Number(resList[i].cash_balance);
                 if (i === 0) {
                     id = resList[i].id;
+                    obj.id = resList[i].id;
                     obj.username = resList[i].username;
                     obj.walletAddress = resList[i].wallet_address
                     obj.totalAsset = resList[i].amount + resList[i].cash_balance;
@@ -54,6 +55,7 @@ class AdminService {
                 if (resList.length - 1 === i) {
                     console.log("last data");
                     if (resList[i].id !== id) {
+                            obj.id = resList[i].id;
                             obj.username = resList[i].username;
                             obj.walletAddress = resList[i].wallet_address
                             obj.totalAsset = resList[i].amount + resList[i].cash_balance;
@@ -70,6 +72,7 @@ class AdminService {
                     console.log("newObj", newObj);
                     userTotalAsset.push(newObj);
                         id = resList[i].id;
+                        obj.id = resList[i].id;
                         obj.username = resList[i].username;
                         obj.walletAddress = resList[i].wallet_address
                         obj.totalAsset = resList[i].amount + resList[i].cash_balance;
