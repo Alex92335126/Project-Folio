@@ -5,9 +5,11 @@
 .navigation-bar-header{
   background-color: black;
   color: orange;
-  font-size: 30px;
-  padding: 8px;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
   display: flex;
+
   align-items: center;
   justify-content: right;
 }
@@ -21,6 +23,11 @@
 
 .cursor-pointer{
   cursor: pointer;
+}
+
+.cursor-pointer1 {
+  cursor: pointer;
+  margin-top: 15px;
 }
 
 table {
@@ -79,11 +86,6 @@ td {
   height: 80vh;
 
 }
-
-.signupEmail {
-  
-}
-
 
 .chart {
   background-color: #FFA500;

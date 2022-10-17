@@ -6,9 +6,9 @@ export default function Game() {
 return (
     <>
 
-    <div className= "scoreboard" style={{color: "#FFA500", padding: "120px"}}>
+    <div className= "scoreboard" style={{color: "#FFA500", padding: "60px"}}>
     <div>
-        <h1 style={{textDecorationLine: 'underline', marginBottom: "20px"}}>Game Instruction:  </h1> 
+        <h2 style={{textDecorationLine: 'underline', marginBottom: "20px"}}>Game Instruction:  </h2> 
         <h5 style={{width: "18rem"}}>Gamefolio is a Virtual Stock Market Simulator which provides real time stock price and news  which allows you to trade your favorite stocks. With the user friendly interface, you can show your stock picking skills and creating your own portfolio for winning the NFT and other prizes . You start with $100k and can buy and sell stocks in realtime from the US stock exchange and the game will start from 1st, Jan,  2023. GOOD LUCK! </h5>
     </div>
 

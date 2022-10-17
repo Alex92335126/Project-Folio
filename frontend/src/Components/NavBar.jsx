@@ -78,21 +78,21 @@ export default function NavBar() {
         </div>
         <div className='d-flex'>
         <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/game")}>Game</div>
+            <div className='cursor-pointer1 mx-2' onClick={()=> navigate ("/game")}>Game</div>
           </Nav.Item>
           <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
+            <div className='cursor-pointer1 mx-2' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
           </Nav.Item>
           <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate("/")}>Dashboard</div>
+            <div className='cursor-pointer1 mx-2' onClick={()=> navigate("/")}>Dashboard</div>
           </Nav.Item>
           <Nav.Item>
             {token?
-              <div className='cursor-pointer mx-3' onClick={logout}>Logout</div> :
-              <div className='cursor-pointer mx-3' onClick={()=> navigate ("/login")}>Login</div>}
+              <div className='cursor-pointer1 mx-2' onClick={logout}>Logout</div> :
+              <div className='cursor-pointer1 mx-2' onClick={()=> navigate ("/login")}>Login</div>}
           </Nav.Item>
           <Nav.Item>
-              <div className='cursor-pointer mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
+              <div className='cursor-pointer1 mx-2' onClick={()=> navigate ("/signup")}>SignUp</div>
           </Nav.Item>
         </div>
       </Nav>
