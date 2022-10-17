@@ -14,6 +14,7 @@ class AdminService {
     }
 
     async getAllUsersAssets() {
+        let userTotalAsset = [];
         let resList = []
         console.log("getuser asset")
         const assetList = await this.knex.select(
@@ -30,18 +31,61 @@ class AdminService {
         .innerJoin("cash_acc", "account.id", "cash_acc.accountID")
         .innerJoin("stock", "asset_acc.stockID", "stock.id")
         // .groupBy('id')
+        console.log("assetList", assetList);
         try {
             for (let asset of assetList) {
                 const res = await this.folioService.getStockPrice(asset.symbol)
                 let list = {...asset, amount: (parseInt(asset.num_shares) * res.c).toFixed(2), sharePrice: res.c}
-                resList.push(list)
+                resList.push(list);
             }
-            
+            let id;
+            let obj = {username: '', totalAsset: 0};
+
+            for (let i=0; i < resList.length; i++) {
+                resList[i].amount = Number(resList[i].amount);
+                resList[i].cash_balance = Number(resList[i].cash_balance);
+                if (i === 0) {
+                    id = resList[i].id;
+                    obj.username = resList[i].username;
+                    obj.totalAsset = resList[i].amount + resList[i].cash_balance;
+                }
+
+                if (resList.length - 1 === i) {
+                    console.log("last data");
+                    if (resList[i].id !== id) {
+                            obj.username = resList[i].username;
+                            obj.totalAsset = resList[i].amount + resList[i].cash_balance;
+                            userTotalAsset.push(obj);
+                    } else {
+                        obj.totalAsset += resList[i].amount;
+                        userTotalAsset.push(obj);
+                    }
+                }
+
+                if (i > 0 && i < resList.length - 1) {
+                if (resList[i].id !== id) {
+                    let newObj = {...obj};
+                    console.log("newObj", newObj);
+                    userTotalAsset.push(newObj);
+                        id = resList[i].id;
+                        obj.username = resList[i].username;
+                        obj.totalAsset = resList[i].amount + resList[i].cash_balance;
+                } else {
+                    obj.totalAsset += resList[i].amount;
+                }
+            }
+
+            console.log("in for loop userTotal", userTotalAsset)
+            }
+          
         } catch (error) {
             
         }
         // const groupedList = groupBy(resList, "id")
-        return resList
+        userTotalAsset.sort((a,b) => b.totalAsset - a.totalAsset);
+        console.log("userTotalAsset", userTotalAsset)
+
+        return userTotalAsset;
     }
 
     async issueNFt() {
