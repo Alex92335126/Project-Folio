@@ -1,4 +1,3 @@
-const groupBy = require('../utils/groupBy')
 class AdminService {
     constructor(knex, folioService) {
         this.knex = knex
@@ -20,6 +19,7 @@ class AdminService {
         const assetList = await this.knex.select(
             "account.id",
             "account.username",
+            "account.wallet_address",
             "stock.stock_name",
             "stock.symbol",
             "asset_acc.stockID",
@@ -39,7 +39,7 @@ class AdminService {
                 resList.push(list);
             }
             let id;
-            let obj = {username: '', totalAsset: 0};
+            let obj = {username: '', totalAsset: 0, walletAddress:''};
 
             for (let i=0; i < resList.length; i++) {
                 resList[i].amount = Number(resList[i].amount);
@@ -47,6 +47,7 @@ class AdminService {
                 if (i === 0) {
                     id = resList[i].id;
                     obj.username = resList[i].username;
+                    obj.walletAddress = resList[i].wallet_address
                     obj.totalAsset = resList[i].amount + resList[i].cash_balance;
                 }
 
@@ -54,6 +55,7 @@ class AdminService {
                     console.log("last data");
                     if (resList[i].id !== id) {
                             obj.username = resList[i].username;
+                            obj.walletAddress = resList[i].wallet_address
                             obj.totalAsset = resList[i].amount + resList[i].cash_balance;
                             userTotalAsset.push(obj);
                     } else {
@@ -69,6 +71,7 @@ class AdminService {
                     userTotalAsset.push(newObj);
                         id = resList[i].id;
                         obj.username = resList[i].username;
+                        obj.walletAddress = resList[i].wallet_address
                         obj.totalAsset = resList[i].amount + resList[i].cash_balance;
                 } else {
                     obj.totalAsset += resList[i].amount;

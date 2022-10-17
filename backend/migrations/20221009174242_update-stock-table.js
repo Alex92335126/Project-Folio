@@ -13,7 +13,7 @@
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
-    await knex.schema.dropTable("stock", (table) => {
+    await knex.schema.table("stock", (table) => {
         table.dropColumn("type");
     })
 };
