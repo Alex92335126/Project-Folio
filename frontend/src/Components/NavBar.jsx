@@ -78,7 +78,7 @@ export default function NavBar() {
         </div>
         <div className='d-flex'>
         <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/scoreboard")}>Scoreboard</div>
+            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/game")}>Game</div>
           </Nav.Item>
           <Nav.Item>
             <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>

@@ -99,7 +99,7 @@ td {
 .scoreboard {
   background-color: #2F2F30;
   height:80vh;
-  border: 10px;
+  border-style: solid;
   border-color: #FFA500;
   display: flex;
   justify-content: space-around;

@@ -9,7 +9,7 @@ import RequireAuth from './Components/RequireAuth';
 import PieChart from './Components/PieChart';
 import Footer from './Components/Footer';
 import AdminPage from './pages/AdminPage';
-import Scoreboard from './pages/Scoreboard';
+import Game from './pages/Game';
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/scoreboard" element={<Scoreboard />}></Route>
+          <Route path="/game" element={<Game />}></Route>
           <Route path="/portfolio" 
             element={
             <RequireAuth>
