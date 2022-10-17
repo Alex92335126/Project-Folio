@@ -88,36 +88,36 @@ export default function NavBar() {
           role === "1" ?
           <div className='d-flex'>
             <Nav.Item>
-              <div className='cursor-pointer mx-3' onClick={()=> navigate ("/admin")}>Admin</div>
+              <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/admin")}>Admin</div>
             </Nav.Item> 
             <Nav.Item>
-              <div className='cursor-pointer mx-3' onClick={logout}>Logout</div>
+              <div className='cursor-pointer1 mx-3' onClick={logout}>Logout</div>
             </Nav.Item> 
           </div>
           :
            <div className='d-flex'>
             <Nav.Item>
-          <div className='cursor-pointer mx-3' onClick={()=> navigate ("/game")}>Game</div>
+          <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/game")}>Game</div>
         </Nav.Item>
         <Nav.Item>
-          <div className='cursor-pointer mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
+          <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/portfolio")}>Portfolio</div>
         </Nav.Item>
         <Nav.Item>
-          <div className='cursor-pointer mx-3' onClick={()=> navigate("/")}>Dashboard</div>
+          <div className='cursor-pointer1 mx-3' onClick={()=> navigate("/")}>Dashboard</div>
         </Nav.Item>
         <Nav.Item>
           {token?
-            <div className='cursor-pointer mx-3' onClick={logout}>Logout</div> :
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/login")}>Login</div>}
+            <div className='cursor-pointer1 mx-3' onClick={logout}>Logout</div> :
+            <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/login")}>Login</div>}
         </Nav.Item>
         <Nav.Item>
-            <div className='cursor-pointer mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
+            <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
         </Nav.Item>
         <Nav.Item>
             {
               walletAddress ? 
               walletAddress :
-              <div className='cursor-pointer mx-3' onClick={connect}>Connect</div>
+              <div className='cursor-pointer1 mx-3' onClick={connect}>Connect</div>
             }
             
         </Nav.Item>

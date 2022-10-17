@@ -62,7 +62,8 @@ export default function BuySell () {
             return setSellError("Stock not in portfolio")
         } 
         if(isPartofFolio) {
-            if(isPartofFolio.num_shares >= sell.num_shares) {
+            console.log("check portfolio", sell)
+            if(Number(isPartofFolio.num_shares) >= Number(sell.num_shares)) {
                 console.log('can sell')
                 await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
                 toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
