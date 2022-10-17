@@ -10,6 +10,7 @@ import PieChart from './Components/PieChart';
 import Footer from './Components/Footer';
 import AdminPage from './pages/AdminPage';
 import Game from './pages/Game';
+import RequireAdmin from './Components/RequireAdmin';
 
 
 function App() {
@@ -27,7 +28,11 @@ function App() {
               <Portfolio />
             </RequireAuth>
           }/>
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin" element={
+            <RequireAdmin>
+              <AdminPage />
+            </RequireAdmin>
+          } />
 
           
       </Routes>

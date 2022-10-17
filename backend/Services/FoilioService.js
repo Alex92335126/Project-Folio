@@ -103,16 +103,16 @@ class FolioService {
         console.log("enough money", parseInt(cashinAcct[0].cash_balance) > buyAmount, "buy amount", buyAmount, "cash", parseInt(cashinAcct[0].cash_balance))
         console.log("stockId", stockID)
         console.log("updated cash bal", updatedCashBal)
-        console.log("has stockID", Array.isArray(stockID))
-        console.log("has boolean stockID =======> ", stockID && stockID.length > 0)
+        console.log("no stockID", !stockID || !stockID.length > 0)
+        console.log("stockID length", !stockID.length > 0)
+        console.log("add to knex? =======> ", !(stockID && stockID.length > 0))
         if(!(stockID && stockID.length > 0)) {
-            console.log("add to knex", name, symbol)
+            console.log("add to knex", symbol)
             stockID = await this.knex("stock").insert({
-                stock_name: name,
                 symbol: symbol.toUpperCase()
             }).returning("id")
         }
-        // console.log("knex stockId =====> ", stockID)
+        console.log('after add to knex =====> ', stockID)
         if (parseInt(cashinAcct[0].cash_balance) > buyAmount) {
             // console.log("stockid", stockID[0].id)
             // console.log("account id", id)
@@ -122,6 +122,7 @@ class FolioService {
                         accountID: id,
                         stockID: stockID[0].id
                     }).first();
+                    console.log('asset_acc', asset_acc)
                     if (asset_acc) {
                         console.log("asset acc", asset_acc)
                         let currentShare = await this.knex("asset_acc").select("num_shares").where({accountID: id,stockID: stockID[0].id}).first()
@@ -129,13 +130,14 @@ class FolioService {
                             num_shares: Number(currentShare.num_shares) + Number(numShares),
                         }).where({accountID: id,stockID: stockID[0].id}).into("asset_acc")
                     } else {
-                        console.log('no asset acc')
+                        console.log('no asset acc', 'user id', id, 'num of shares', numShares, 'stock id', stockID[0].id)
                         await trx.insert({
                             accountID: id,
                             num_shares: numShares,
                             stockID: stockID[0].id
                         }).into("asset_acc")
                     }
+                    console.log('insert into trades')
                 await trx.insert({
                     accountID: id,
                     stockID: stockID[0].id,
@@ -143,9 +145,11 @@ class FolioService {
                     num_shares: numShares,
                     price,
                 }).into("trades").returning("id")
+                console.log('insert into cash acc')
                 await trx.update({
                     cash_balance: updatedCashBal
                 }).into("cash_acc").where({accountID: id})
+                console.log('done')
                 return trx.commit;
             } catch(err) {
                return trx.rollback
@@ -154,7 +158,6 @@ class FolioService {
         } else {
             return "insufficient balance"
         }
-        // return
         
     }
 

@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
 import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
 
 
 export default function AdminPage() {
+    const isAdmin = useSelector((state) => state.auth);
+    console.log('isAdmin', isAdmin)
     const [userList, setUserList] = useState([])
     const [ethBalance, setEthBalance] = useState('')
     const nftImage = [
@@ -55,7 +58,7 @@ export default function AdminPage() {
         const image = nftImage.find(item => item.id === idx +1)
         console.log(image)
         return (
-            <img width="50px" alt={image.title} src={image.url} />
+            <img className="px-1" width="65px" alt={image.title} src={image.url} />
         )
     }
     
@@ -117,7 +120,7 @@ export default function AdminPage() {
                                     item.walletAddress ?
                                     <Button className=""  variant="success" size="sm">
                                         Issue NFT
-                                    </Button>: <div>No Wallet</div>
+                                    </Button>: <div>No Wallet to issue</div>
                                 }
                                 
                             </div>

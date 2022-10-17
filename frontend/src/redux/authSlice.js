@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isAuthenticated: false || localStorage.getItem("TOKEN") != null,
+  role: '',
   user: {
     id: "",
     firstName: ""
@@ -62,13 +63,14 @@ async (dispatch) => {
     );
     if (response.data) {
       console.log(response.data);
+      localStorage.setItem("ROLE", response.data.role)
       localStorage.setItem("TOKEN", response.data.token);
       dispatch(login());
     }
   };
 
 export const logoutThunk = () => async (dispatch) => {
-  localStorage.removeItem("TOKEN");
+  localStorage.clear();
   dispatch(logout());
 };
 

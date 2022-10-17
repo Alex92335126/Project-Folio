@@ -32,7 +32,7 @@ export default function BuySell () {
     })
 
     const handleBuy = async () => {
-        const canBuy = (buy.num_shares * buy.num_shares) <= cashBalance
+        const canBuy = (buy.num_shares * buy.price) <= cashBalance
         console.log('canbuy', canBuy)
         if(canBuy) {
             await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
@@ -114,7 +114,10 @@ export default function BuySell () {
                             name="symbol"
                             value={buy.symbol}
                             style={{textTransform:"uppercase"}}
-                            onChange={(e) => setBuy({...buy, symbol: e.target.value})}
+                            onChange={(e) => {
+                                const symbol = e.target.value
+                                setBuy({...buy, symbol: symbol.toUpperCase()})
+                            }}
                             onBlur={(e) => getPrice(e.target.value, "B")}
                         />
                     </label>
