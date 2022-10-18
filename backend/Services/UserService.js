@@ -3,9 +3,11 @@ class UserService {
         this.knex = knex
     }
 
-    async getUser(username) {
-        console.log("getuser service", username)
-        return await this.knex("account").where({ username }).first();
+    async getUser(user) {
+        console.log("getuser service", user)
+        const foundUser = await this.knex("account").where({ username: user }).first();
+        console.log('returned user', foundUser)
+        return foundUser
     }
 
     async addUser(username, password, fname, lname, email) {

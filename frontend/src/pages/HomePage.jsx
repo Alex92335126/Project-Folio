@@ -7,12 +7,13 @@ import { format } from 'date-fns'
 export default function HomePage() {
     const [news, setNews] = useState([])
     useEffect(() => {
+        console.log("get news")
         getNews()
     }, [])
 
     const getNews = async() => {
+        
         const res = await axios.get(`https://finnhub.io/api/v1/news?category=general&token=${process.env.REACT_APP_FINNHUB_API}`)
-        const data = await res.data
         console.log("news", typeof res.data, res)
         setNews(res.data)
     }
@@ -42,7 +43,7 @@ export default function HomePage() {
                     {news ? news.map((item) => (
                         <div className="py-2" key={item.id}>
                             {/* {item.datetime} */}
-                            {format(new Date(item.datetime * 1000), "d MMM yyyy")}
+                            {format(new Date(item.datetime * 10), "d MMM yyyy")}
                             <div>
                                 <div className="d-flex">
                                 <h5>{item.headline} - {item.source}</h5>

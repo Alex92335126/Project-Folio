@@ -38,24 +38,25 @@ class AdminService {
                 let list = {...asset, amount: (parseInt(asset.num_shares) * res.c).toFixed(2), sharePrice: res.c}
                 resList.push(list);
             }
+            console.log(resList)
             let id;
-            let obj = {id: '', username: '', totalAsset: 0, walletAddress:''};
+            let obj = {username: '', totalAsset: 0, walletAddress:''};
 
             for (let i=0; i < resList.length; i++) {
                 resList[i].amount = Number(resList[i].amount);
                 resList[i].cash_balance = Number(resList[i].cash_balance);
                 if (i === 0) {
+                    console.log('i==0', resList[i])
                     id = resList[i].id;
-                    obj.id = resList[i].id;
                     obj.username = resList[i].username;
                     obj.walletAddress = resList[i].wallet_address
                     obj.totalAsset = resList[i].amount + resList[i].cash_balance;
                 }
 
                 if (resList.length - 1 === i) {
+                    console.log('reslist.length -1 ==i', resList[i])
                     console.log("last data");
                     if (resList[i].id !== id) {
-                            obj.id = resList[i].id;
                             obj.username = resList[i].username;
                             obj.walletAddress = resList[i].wallet_address
                             obj.totalAsset = resList[i].amount + resList[i].cash_balance;
@@ -72,7 +73,6 @@ class AdminService {
                     console.log("newObj", newObj);
                     userTotalAsset.push(newObj);
                         id = resList[i].id;
-                        obj.id = resList[i].id;
                         obj.username = resList[i].username;
                         obj.walletAddress = resList[i].wallet_address
                         obj.totalAsset = resList[i].amount + resList[i].cash_balance;

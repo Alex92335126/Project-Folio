@@ -19,11 +19,12 @@ class UserRouter {
 
     login = async (req, res) => {
         const { username, password } = req.body;
-        let user = await this.userService.getUser(username)
+        console.log('username', username, password)
+        let user = await this.userService.getUser(req.body.username)
         console.log("router user", user)
         if (user) {
             let result = await bcrypt.compare(password, user.password);
-
+            console.log('result', result)
             if (result) {
             const payload = {
                 id: user.id,

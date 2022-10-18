@@ -28,16 +28,25 @@ export default function Portfolio() {
   };
 
   useEffect(() => {
-    getData();
+    // getData();
+
+      dispatch(getUserThunk());
+      dispatch(assetThunk())
+      .then(() => 
+        dispatch(cashThunk())
+      )
+      .then(() => 
+       dispatch(getTotalBal())
+      )
   }, []);
 
-  const getData = async () => {
-    await dispatch(getUserThunk());
-    await dispatch(assetThunk());
-    await dispatch(cashThunk());
-    // await getCashTotal()
-    await dispatch(getTotalBal());
-  };
+  // const getData = async () => {
+  //   dispatch(getUserThunk());
+  //   await dispatch(assetThunk());
+  //   await dispatch(cashThunk());
+  //   // await getCashTotal()
+  //   await dispatch(getTotalBal());
+  // };
 
   return (
     <>
@@ -47,9 +56,9 @@ export default function Portfolio() {
         {/* {cashTotal} */}
         <div className="d-flex ">
             <div className="col-md-6">
+                    <h2> Stock Account</h2>
                 <table>
                 <thead>
-                    <h2> Stock Account</h2>
                     <tr>
                     <th>Symbol</th>
                     <th>Number of share</th>
@@ -69,30 +78,32 @@ export default function Portfolio() {
                 </tbody>
                 </table>
                 <div className="py-1" />
-                <table>
                 <h2 className= "py-4"> Cash Account </h2>
-                <div>
+                <table>
+                {/* <div> */}
                 <tbody>
                     <tr>
-                    <td style={{width: "510px"}}>
+                    <td style={{width: "380px"}}>
                         <strong >Cash Balance</strong>
                     </td>
                     <td>{assetList.cashBal}</td>
                     </tr>
                 </tbody>
-                </div>
-                <div>
+                {/* </div> */}
+                </table>
+                {/* <div> */}
                 <h2 className= "py-4">Total Asset</h2>
+                <table>
                 <tbody>
                 <tr>
-                    <td style={{width: "510px"}}>
+                    <td style={{width: "380px"}}>
                         <strong>Total (Cash+Stock)</strong>
                     </td>
                     <td>{assetList.totalBal}</td>
                     </tr>
                 </tbody>  
-                </div>
                 </table>
+                {/* </div> */}
             </div>
 
             <div className="py-4" />
@@ -101,7 +112,7 @@ export default function Portfolio() {
                         <BuySell />
                     </div>
                 
-                <div style={{width: "400px", fontSize: "20px", marginTop: "15px"}}>
+                <div style={{width: "350px", fontSize: "20px", marginTop: "15px"}}>
 
                 <PieChart
                         labelStyle={{

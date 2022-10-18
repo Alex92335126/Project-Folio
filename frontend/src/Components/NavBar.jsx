@@ -33,9 +33,9 @@ export default function NavBar() {
   let token = localStorage.getItem("TOKEN")
   const role = localStorage.getItem("ROLE")
 
-  useEffect(() => {
-      // connect()
-  }, [])
+  // useEffect(() => {
+  //     // connect()
+  // }, [])
   const connect = async () => {
       console.log('clicked connect')
       try {
@@ -110,14 +110,17 @@ export default function NavBar() {
             <div className='cursor-pointer1 mx-3' onClick={logout}>Logout</div> :
             <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/login")}>Login</div>}
         </Nav.Item>
-        <Nav.Item>
+        {
+          token ? null :
+          <Nav.Item>
             <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
-        </Nav.Item>
-        <Nav.Item>
+          </Nav.Item>
+        }
+        <Nav.Item className='d-flex align-items-center'>
             {
               walletAddress ? 
-              walletAddress :
-              <div className='cursor-pointer1 mx-3' onClick={connect}>Connect</div>
+              <div>{walletAddress}</div> :
+              <div className='cursor-pointer mx-3' onClick={connect}>Connect</div>
             }
             
         </Nav.Item>

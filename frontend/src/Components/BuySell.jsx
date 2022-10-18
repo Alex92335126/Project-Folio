@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import getStockPrice from "../utils/getStockPrice";
-import { assetThunk } from "../redux/portfolioSlice";
+import { assetThunk, cashThunk } from "../redux/portfolioSlice";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function BuySell () {
     const [transactionError, setTransactionError] = useState('')
     const [sellError, setSellError] = useState('')
     let token = localStorage.getItem("TOKEN")
-    useEffect(() => {
-        axios.defaults.headers.common['Authorization'] = "Bearer " + token
-    }, [token])
+    // useEffect(() => {
+    //     axios.defaults.headers.common['Authorization'] = "Bearer " + token
+    // }, [token])
 
     const dispatch = useDispatch();
     const cashBalance = useSelector((state) => state.portFolioReducer.cashBal);
@@ -35,8 +35,13 @@ export default function BuySell () {
         const canBuy = (buy.num_shares * buy.price) <= cashBalance
         console.log('canbuy', canBuy)
         if(canBuy) {
-            await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy);
+            await axios.post(`${process.env.REACT_APP_BACKEND}/folio/buy`, buy, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                  }
+            });
             dispatch(assetThunk())
+            dispatch(cashThunk())
             .then(() => {
                 toast(`Successfully bought ${buy.num_shares} shares of ${buy.symbol.toUpperCase()} at ${buy.price}! 🚀`);
             })
@@ -65,9 +70,14 @@ export default function BuySell () {
             console.log("check portfolio", sell)
             if(Number(isPartofFolio.num_shares) >= Number(sell.num_shares)) {
                 console.log('can sell')
-                await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell);
-                toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
-                dispatch(assetThunk())
+                await axios.put(`${process.env.REACT_APP_BACKEND}/folio/sell`, sell, { headers: {
+                    Authorization: `Bearer ${token}`,
+                  }});
+                  dispatch(assetThunk())
+                  dispatch(cashThunk())
+                  .then(() => {
+                      toast(`Successfully sold ${sell.num_shares} shares of ${sell.symbol.toUpperCase()} at ${sell.price}! 💵`);
+                })
                 setSell({
                     symbol: "",
                     num_shares: "",
@@ -208,3 +218,5 @@ export default function BuySell () {
     )
 
 }
+
+
