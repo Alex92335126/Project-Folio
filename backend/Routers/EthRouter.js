@@ -8,6 +8,7 @@ class EthRouter {
     router () {
         let router = this.express.Router();
         router.get("/get-bal", this.getBal);
+        router.get("/contract-details", this.getDetails)
         
         return router
     }
@@ -20,7 +21,17 @@ class EthRouter {
             console.log(error)
             res.sendStatus(401).json({msg: error});
         }
-    }     
+    }
+    
+    getDetails = async(req, res) =>{
+        try {
+            const details = await this.ethService.getDetails()
+            res.json(details)
+        } catch (error) {
+            console.log(error)
+            res.sendStatus(401).json({msg: error})
+        }
+    }
 }
 
 module.exports = EthRouter;

@@ -1,12 +1,24 @@
 const { ethers } = require("ethers");
+const abi = require("../artifacts/contracts/NftToken.sol/MyToken.json")
 
 class EthService {
     constructor(knex) {
         this.knex = knex
     }
 
-    issueNft = () => {
+    issueNft = async () => {
+        
 
+    }
+
+    getDetails = async () => {
+        const provider = await ethers.getDefaultProvider(process.env.ALCHEMY_ENDPOINT)
+        const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+        const NFTContract = new ethers.Contract("0x7259B0512D8ecEc12179C1ed31b1bf7Fe4EF2a2C", abi.abi, signer)
+        const name = await NFTContract.name()
+        const symbol = await NFTContract.symbol()
+        console.log("name", name, "symbol", symbol)
+        return {name, symbol}
     }
 
     getEthBalance = async () => {
