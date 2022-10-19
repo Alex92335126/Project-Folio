@@ -38,11 +38,11 @@ class AdminService {
                 let list = {...asset, amount: (parseInt(asset.num_shares) * res.c).toFixed(2), sharePrice: res.c}
                 resList.push(list);
             }
-            console.log(resList)
             let id;
             let obj = {username: '', totalAsset: 0, walletAddress:''};
 
             for (let i=0; i < resList.length; i++) {
+
                 resList[i].amount = Number(resList[i].amount);
                 resList[i].cash_balance = Number(resList[i].cash_balance);
                 if (i === 0) {
@@ -53,24 +53,10 @@ class AdminService {
                     obj.totalAsset = resList[i].amount + resList[i].cash_balance;
                 }
 
-                if (resList.length - 1 === i) {
-                    console.log('reslist.length -1 ==i', resList[i])
-                    console.log("last data");
-                    if (resList[i].id !== id) {
-                            obj.username = resList[i].username;
-                            obj.walletAddress = resList[i].wallet_address
-                            obj.totalAsset = resList[i].amount + resList[i].cash_balance;
-                            userTotalAsset.push(obj);
-                    } else {
-                        obj.totalAsset += resList[i].amount;
-                        userTotalAsset.push(obj);
-                    }
-                }
-
                 if (i > 0 && i < resList.length - 1) {
+         
                 if (resList[i].id !== id) {
                     let newObj = {...obj};
-                    console.log("newObj", newObj);
                     userTotalAsset.push(newObj);
                         id = resList[i].id;
                         obj.username = resList[i].username;
@@ -81,7 +67,24 @@ class AdminService {
                 }
             }
 
-            console.log("in for loop userTotal", userTotalAsset)
+                if (resList.length - 1 === i) {
+                    console.log('reslist.length -1 ==i', resList[i])
+                    console.log("last data");
+                    if (resList[i].id !== id) {
+                        let newObj = {...obj};
+                        userTotalAsset.push(newObj);
+                            obj.username = resList[i].username;
+                            obj.walletAddress = resList[i].wallet_address
+                            obj.totalAsset = resList[i].amount + resList[i].cash_balance;
+                            userTotalAsset.push(obj);
+                    } else {
+                        obj.totalAsset += resList[i].amount;
+                        userTotalAsset.push(obj);
+                    }
+                }
+
+            
+
             }
           
         } catch (error) {
