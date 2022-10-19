@@ -43,7 +43,7 @@ export default function HomePage() {
                     {news ? news.map((item) => (
                         <div className="py-2" key={item.id}>
                             {/* {item.datetime} */}
-                            {format(new Date(item.datetime * 10), "d MMM yyyy")}
+                            {format(new Date(item.datetime * 1000), "d MMM yyyy")}
                             <div>
                                 <div className="d-flex">
                                 <h5>{item.headline} - {item.source}</h5>
