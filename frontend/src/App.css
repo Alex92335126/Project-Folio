@@ -98,17 +98,18 @@ td {
   margin-top: 20px;
 }
 
-.scoreboard {
+.game {
   background-color: #2F2F30;
   height:80vh;
-  border-style: solid;
-  border-color: #FFA500;
   display: flex;
   justify-content: space-around;
-}
-
-.card {
   border-style: solid;
   border-color: orange;
   border-width: 5px;
 }
+
+/* .gamecard {
+  border-style: solid;
+  border-color: orange;
+  border-width: 5px;
+} */
