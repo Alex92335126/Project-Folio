@@ -13,7 +13,7 @@ jobs:
    docker:
      # specify the version you desire here
      - image: circleci/node:14
-   working_directory: ~/frontend
+   working_directory: ~/repo/frontend
  
    steps:
      - checkout
@@ -68,3 +68,4 @@ workflows:
      - deploy:
          requires:
            - build
+
