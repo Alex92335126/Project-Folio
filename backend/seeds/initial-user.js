@@ -9,7 +9,7 @@ exports.seed = async function(knex) {
     {
       username: 'alex',
       role: '1',
-      password: '1234',
+      password: '12345',
       fname: 'alex',
       lname: 'ng',
       email: 'alex92335126@gmail.com',
