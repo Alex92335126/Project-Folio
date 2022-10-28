@@ -20,13 +20,20 @@ const FolioService = require("./Services/FoilioService.js")
 const AdminRouter = require('./Routers/AdminRouter')
 const AdminService = require('./Services/AdminService')
 const EthRouter = require('./Routers/EthRouter')
-const EthService = require('./Services/EthService')
+const EthService = require('./Services/EthService');
+const { METHODS } = require("http");
 
 //Setup Modules
 const app = express();
 app.use(cors({
-    origin: "https://gamefolio.net"
+    origin: "https://gamefolio.net",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+    });
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 auth(knex).initialize();
