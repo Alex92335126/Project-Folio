@@ -51,5 +51,6 @@
       "last 1 safari version"
     ] 
   },
-  "homepage": "https://gamefolio.net"
+  "homepage": "https://gamefolio.net",
+  "proxy": "https://testingground.click:3030/"
 }
