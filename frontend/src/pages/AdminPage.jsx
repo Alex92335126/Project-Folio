@@ -32,6 +32,7 @@ const nftImage = [
 ]
 
 export default function AdminPage() {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('TOKEN') : null
     const isAdmin = useSelector((state) => state.auth);
     console.log('isAdmin', isAdmin)
     const [userList, setUserList] = useState([])
@@ -77,6 +78,23 @@ export default function AdminPage() {
             toast(`Error ${error}`);
         }
 
+    }
+
+    const deleteUser = async(id) => {
+        console.log('delete user', id)
+        try {
+            const res = await axios.delete(`${process.env.REACT_APP_BACKEND}/user/del/${id}`,{
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              })
+            if (res) {
+                toast(`Delete Success!`);
+                await getUserList()
+            }
+        } catch (error) {
+            toast(`Error ${error}`);
+        }
     }
 
     return (
@@ -164,7 +182,7 @@ export default function AdminPage() {
                                 </Button>
                             </div>
                             <div className="col-md-1 my-1">
-                                <Button className=""  variant="danger" size="sm">
+                                <Button className="" onClick={() => deleteUser(item.userId)} variant="danger" size="sm">
                                     Delete
                                 </Button>
                             </div>

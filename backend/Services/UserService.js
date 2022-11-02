@@ -11,6 +11,10 @@ class UserService {
     }
 
     async addUser(username, password, fname, lname, email) {
+        // const hasUser = await this.getUser(username)
+        // if (hasUser.length) {
+        //     return false
+        // }
         return this.knex.transaction(async(trx)=> {
             const userId = await trx.insert({username, password, fname, lname, email})
             .into("account")
@@ -23,6 +27,31 @@ class UserService {
 
     async updatePassword(id, oldPassword, newPassword) {
         
+    }
+
+    async delUser(accountId) {
+        console.log("delete username", accountId);
+       await this.knex("asset_acc")
+        .del()
+        .where({
+          accountID: accountId,
+        })
+        await this.knex("trades")
+        .del()
+        .where({
+          accountID: accountId,
+        })
+        await this.knex("cash_acc")
+        .del()
+        .where({
+          accountID: accountId,
+        })
+        await this.knex("account")
+        .del()
+        .where({
+            id: accountId,
+        })
+        return "deleted"
     }
 }
 

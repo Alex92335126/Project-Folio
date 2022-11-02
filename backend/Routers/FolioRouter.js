@@ -13,7 +13,6 @@ class FolioRouters {
       router.post("/buy", this.postBuyOrder.bind(this));
    
       router.put("/sell", this.putSellOrder.bind(this));
-      router.delete("/del/:accountId", this.deleteUser.bind(this));
       return router;
     }
 
@@ -85,20 +84,6 @@ class FolioRouters {
         res.status(500).send(error);
       }
     }
-
-    //delete accountID (delete)
-    async deleteUser (req, res) {
-      let user = req.params.accountId;
-      console.log("del event", user)
-      try{
-        const delUser = await this.folioService.delUser( 
-          req.params.accountId);
-        res.json(delUser);
-      } catch (error) {
-        res.status(500).send(error);
-      }
-    }
-
 };
 
 module.exports = FolioRouters

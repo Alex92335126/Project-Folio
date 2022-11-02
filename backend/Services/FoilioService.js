@@ -202,36 +202,6 @@ class FolioService {
         }
     }   
 
-    // Delete Account ID 
-    async delUser(accountId) {
-        console.log("accountId", accountId);
-       await this.knex("asset_acc")
-        .del()
-        .where({
-          accountID: accountId,
-        })
-        await this.knex("trades")
-        .del()
-        .where({
-          accountID: accountId,
-        })
-        await this.knex("cash_acc")
-        .del()
-        .where({
-          accountID: accountId,
-        })
-        await this.knex("account")
-        .del()
-        .where({
-            id: accountId,
-        })
-        return "deleted"
-    }
-
-    
-    
-    
-    
     
 };
     // check if asset_acc has enough stock 

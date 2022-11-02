@@ -14,6 +14,7 @@ class UserRouter {
         router.post("/login", this.login);
         router.get("/", this.getUser);
         router.post('/update-password', this.updatePassword)
+        router.delete("/del/:username", this.deleteUser.bind(this));
         return router
     }
 
@@ -75,6 +76,18 @@ class UserRouter {
 
 
     }
+
+    async deleteUser (req, res) {
+        let user = req.params.username;
+        console.log("del event", user)
+        try{
+          const delUser = await this.userService.delUser( 
+            req.params.username);
+          res.json(delUser);
+        } catch (error) {
+          res.status(500).send(error);
+        }
+      }
 }
 
 module.exports = UserRouter;

@@ -29,3 +29,4 @@ export const todoThunk = () => async (dispatch) => {
   });
   dispatch(getTodo(response.data.todo));
 };
+

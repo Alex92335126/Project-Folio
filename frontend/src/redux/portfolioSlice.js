@@ -54,3 +54,5 @@ export const cashThunk = () => async (dispatch)=> {
   });
   dispatch(getCashBal(response.data[0].cash_balance));
 };
+
+
