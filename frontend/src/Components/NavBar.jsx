@@ -2,19 +2,12 @@ import Web3Modal from 'web3modal'
 import { providers } from 'ethers'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-
-
-import Button from 'react-bootstrap/esm/Button';
 import Nav from 'react-bootstrap/Nav';
-import { useDispatch } from 'react-redux'
-import { Router, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { logout, logoutThunk } from '../redux/authSlice'
+import { getUserThunk } from "../redux/authSlice";
+import axios from 'axios'
 
-
-// function Header() {
-//   // Import result is the URL of your image
-//   return <img src={logo} alt="Logo" />;
-// }
 
 let web3Modal
 if (typeof window !== 'undefined') {
@@ -32,39 +25,44 @@ export default function NavBar() {
   let navigate = useNavigate()
   let token = localStorage.getItem("TOKEN")
   const role = localStorage.getItem("ROLE")
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //     // connect()
-  // }, [])
   const connect = async () => {
       console.log('clicked connect')
       try {
         const provider = await web3Modal.connect()
-        console.log('connected', provider)
         const web3Provider = new providers.Web3Provider(provider)
-        console.log('web3Provider', web3Provider)
-  
         const signer = web3Provider.getSigner()
-        console.log('signer', signer)
         const address = await signer.getAddress()
         setAddress(address)
         const walletAddress = address.substring(0, 4) + '...' + address.substring(address.length - 4, address.length)
         setWalletAddress(walletAddress)
-  
+        await axios.post(
+          `${process.env.REACT_APP_BACKEND}/user/update-address`, {walletAddress: address} ,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+        }})
+        dispatch(getUserThunk())
+        
+
         const network = await web3Provider.getNetwork()
       } catch (error) {
         console.log(error)
         
       }
   }
-
-  const dispatch = useDispatch()
-  
-  
   
   useEffect(() => {
+    if (user.walletAddress) {
+      const address = user.walletAddress
+      const walletAddress = address.substring(0, 4) + '...' + address.substring(address.length - 4, address.length)
+      setWalletAddress(walletAddress)
+    } else {
+      setWalletAddress('')
+    }
     console.log("nav render")
-  }, [token])
+  }, [token, user])
 
   const logout = async () => {
     await dispatch(logoutThunk())
@@ -116,14 +114,16 @@ export default function NavBar() {
             <div className='cursor-pointer1 mx-3' onClick={()=> navigate ("/signup")}>SignUp</div>
           </Nav.Item>
         }
-        <Nav.Item className='d-flex align-items-center'>
-            {
-              walletAddress ? 
-              <div>{walletAddress}</div> :
-              <div className='cursor-pointer mx-3' onClick={connect}>Connect</div>
-            }
-            
-        </Nav.Item>
+       { 
+          token ? <Nav.Item className='d-flex align-items-center'>
+              {
+                walletAddress ? 
+                <div>{walletAddress}</div> :
+                <div className='cursor-pointer mx-3' onClick={connect}>Connect</div>
+              }
+              
+          </Nav.Item> : null
+        }
            </div>
           
         }

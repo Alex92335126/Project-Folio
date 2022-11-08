@@ -217,8 +217,10 @@ class FolioService {
     // list out top 10 account ID which is ordered by portfolio return 
 
 
-// https://finnhub.io/api/v1/quote?symbol=GOOGL&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg
-//https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
+9// https://finnhub.io/api/v1/quote?symbol=GOOGL&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg
+//
+
+https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
 
 module.exports = FolioService;
 

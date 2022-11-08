@@ -7,9 +7,13 @@ import { useEffect } from "react";
 import BuySell from "../Components/BuySell";
 import { getUserThunk } from "../redux/authSlice";
 import PieChart from "../Components/PieChart";
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Portfolio() {
   const [cashTotal, setCashTotal] = useState();
+  const [isInput, setIsInput] = useState(false)
+  const [changeAdd, setChangeAdd] = useState('')
   const dispatch = useDispatch();
   const assetList = useSelector((state) => state.portFolioReducer);
   // console.log(assetList);
@@ -27,9 +31,42 @@ export default function Portfolio() {
     // console.log(assetAmount)
   };
 
-  useEffect(() => {
-    // getData();
+  const handleChange = async() => {
+    const token = localStorage.getItem("TOKEN");
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND}/user/update-address`, {walletAddress: changeAdd} ,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }})
+        if (res) {
+          toast(`Update Address Success!`);
+          dispatch(getUserThunk())
+          setIsInput(false)
+        }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  const showAddressDiv = () => {
+    if (isInput) {
+      return (
+        <input
+          type="text" 
+          name="changeAddress"
+          value={changeAdd}
+          onChange={(e) => setChangeAdd(e.target.value)}
+        />
+      )
+    } else {
+        return (
+          <div>{" " + user.walletAddress}</div>
+        )
+    }
+  }
+
+  useEffect(() => {
       dispatch(getUserThunk());
       dispatch(assetThunk())
       .then(() => 
@@ -40,16 +77,21 @@ export default function Portfolio() {
       )
   }, []);
 
-  // const getData = async () => {
-  //   dispatch(getUserThunk());
-  //   await dispatch(assetThunk());
-  //   await dispatch(cashThunk());
-  //   // await getCashTotal()
-  //   await dispatch(getTotalBal());
-  // };
 
   return (
     <>
+    <ToastContainer
+      position="top-center"
+      autoClose={4000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
     <div>
       <div className="portfolio" style={{ color: "orange"}}>
         <h2 className="py-4">Welcome Back {user.firstName}!</h2>
@@ -104,6 +146,26 @@ export default function Portfolio() {
                 </tbody>  
                 </table>
                 {/* </div> */}
+                <div className="d-flex align-items-center py-4">
+                  <div>Wallet Address: {showAddressDiv()}</div>
+                  <div>
+                    {isInput ?
+                      <>
+                        <Button className="" style={{margin: "0.25rem"}} variant="primary" onClick={handleChange}>
+                          Submit
+                        </Button>
+                        <Button className="" style={{margin: "0.25rem"}} variant="danger" onClick={() => setIsInput(false)}>
+                          Cancel
+                        </Button>
+                      </>
+                      :
+                      <Button className="" style={{margin: "0.25rem"}} variant="warning" onClick={() => setIsInput(true)}>
+                        Update
+                      </Button>
+                    }
+                    
+                  </div>
+                </div>
             </div>
 
             <div className="py-4" />

@@ -6,7 +6,8 @@ const initialState = {
   role: '',
   user: {
     id: "",
-    firstName: ""
+    firstName: "",
+    walletAddress: ""
   }
 };
 
@@ -18,12 +19,16 @@ export const authSlice = createSlice({
       state.isAuthenticated = true;
     },
     logout: (state) => {
+      state.user.firstName = ""
+      state.user.id = ""
+      state.user.walletAddress = ""
       state.isAuthenticated = false;
     },
     setUser: (state, payload) => {
       console.log("get user payload", payload.payload.firstName)
       state.user.firstName = payload.payload.firstName
       state.user.id = payload.payload.id
+      state.user.walletAddress = payload.payload.walletAddress
       console.log("set user state", state.firstName)
     }
   },

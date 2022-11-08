@@ -15,6 +15,7 @@ class UserRouter {
         router.get("/", this.getUser);
         router.post('/update-password', this.updatePassword)
         router.delete("/del/:username", this.deleteUser.bind(this));
+        router.post('/update-address', this.updateAddress)
         return router
     }
 
@@ -66,7 +67,7 @@ class UserRouter {
         try {
             const getUser = await this.userService.getUser(tokenName.username)
             console.log("get user", getUser)
-            res.json({id: getUser.id, firstName: getUser.fname})
+            res.json({id: getUser.id, firstName: getUser.fname, walletAddress: getUser.wallet_address})
         } catch (error) {
             console.log(error)
         }
@@ -87,7 +88,22 @@ class UserRouter {
         } catch (error) {
           res.status(500).send(error);
         }
-      }
+    }
+
+    updateAddress = async (req, res) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        const tokenName = jwt.decode(token)
+        console.log(tokenName.id, req.body.walletAddress)
+        try {
+            const updateAdd = await this.userService.updateWalletAddress(tokenName.id, req.body.walletAddress)
+            res.json(updateAdd)
+        } catch (error) {
+            res.status(500).send(error);
+        }
+
+
+    }
 }
 
 module.exports = UserRouter;

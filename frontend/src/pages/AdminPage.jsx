@@ -29,6 +29,42 @@ const nftImage = [
         title: 'Consolation Prize',
         tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
     },
+    {
+        id: 5,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
+    {
+        id: 6,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
+    {
+        id: 7,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
+    {
+        id: 8,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
+    {
+        id: 9,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
+    {
+        id: 10,
+        url: 'https://vcqxfpvh4zd7x4wnqd4vw42ueq5uawgeslncudhczt5ofkmozrhq.arweave.net/qKFyvqfmR_vyzYD5W3NUJDtAWMSS2ioM4sz64qmOzE8',
+        title: 'Consolation Prize',
+        tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
+    },
 ]
 
 export default function AdminPage() {

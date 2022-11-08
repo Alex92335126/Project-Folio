@@ -29,6 +29,15 @@ class UserService {
         
     }
 
+    async updateWalletAddress(id, address) {
+        /*
+            await trx.update({
+                    cash_balance: cashBalUpdate
+                }).into("cash_acc").where({accountID: id})
+        */
+       return await this.knex('account').update({wallet_address: address}).where({id})
+    }
+
     async delUser(accountId) {
         console.log("delete username", accountId);
        await this.knex("asset_acc")
