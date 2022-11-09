@@ -105,18 +105,6 @@ export default function BuySell () {
     return (
         <>
             <div className="buy" >
-                <ToastContainer
-                    position="top-center"
-                    autoClose={2000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                />
                 <div style={{marginTop: "-50px"}} >
                     <label className="symbol" >
                         Symbol:
