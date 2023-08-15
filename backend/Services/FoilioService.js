@@ -217,7 +217,7 @@ class FolioService {
     // list out top 10 account ID which is ordered by portfolio return 
 
 
-9// https://finnhub.io/api/v1/quote?symbol=GOOGL&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg
+// https://finnhub.io/api/v1/quote?symbol=GOOGL&token=ccoso82ad3i91ts8avv0ccoso82ad3i91ts8avvg
 //
 
 https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd

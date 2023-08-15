@@ -34,4 +34,4 @@ contract Gamefolio is ERC721, ERC721URIStorage, Ownable {
     {
         return super.tokenURI(tokenId);
     }
-}
+} 

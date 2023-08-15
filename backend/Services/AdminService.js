@@ -13,9 +13,10 @@ class AdminService {
     }
 
     async getAllUsersAssets() {
-        let userTotalAsset = [];
-        let resList = []
-        console.log("getuser asset")
+        const userTotalAsset = [];
+    console.log("getuser asset");
+
+    try {
         const assetList = await this.knex.select(
             "account.id",
             "account.username",
@@ -24,80 +25,60 @@ class AdminService {
             "stock.symbol",
             "asset_acc.stockID",
             "asset_acc.num_shares",
-            // "asset_acc.accountID",
             "cash_acc.cash_balance"
         ).from('account')
         .innerJoin("asset_acc", "account.id", "asset_acc.accountID")
         .innerJoin("cash_acc", "account.id", "cash_acc.accountID")
-        .innerJoin("stock", "asset_acc.stockID", "stock.id")
-        // .groupBy('id')
+        .innerJoin("stock", "asset_acc.stockID", "stock.id");
+
         console.log("assetList", assetList);
-        try {
-            for (let asset of assetList) {
-                const res = await this.folioService.getStockPrice(asset.symbol)
-                let list = {...asset, amount: (parseInt(asset.num_shares) * res.c).toFixed(2), sharePrice: res.c}
-                resList.push(list);
-            }
-            let id;
-            let obj = {userId: '', username: '', totalAsset: 0, walletAddress:''};
 
-            for (let i=0; i < resList.length; i++) {
+        const resList = [];
 
-                resList[i].amount = Number(resList[i].amount);
-                resList[i].cash_balance = Number(resList[i].cash_balance);
-                if (i === 0) {
-                    console.log('i==0', resList[i])
-                    id = resList[i].id;
-                    obj.userId = resList[i].id
-                    obj.username = resList[i].username;
-                    obj.walletAddress = resList[i].wallet_address
-                    obj.totalAsset = resList[i].amount + resList[i].cash_balance;
-                }
-
-                if (i > 0 && i < resList.length - 1) {
-         
-                if (resList[i].id !== id) {
-                    let newObj = {...obj};
-                    userTotalAsset.push(newObj);
-                        id = resList[i].id;
-                        obj.userId = resList[i].id
-                        obj.username = resList[i].username;
-                        obj.walletAddress = resList[i].wallet_address
-                        obj.totalAsset = resList[i].amount + resList[i].cash_balance;
-                } else {
-                    obj.totalAsset += resList[i].amount;
-                }
-            }
-
-                if (resList.length - 1 === i) {
-                    console.log('reslist.length -1 ==i', resList[i])
-                    console.log("last data");
-                    if (resList[i].id !== id) {
-                        let newObj = {...obj};
-                        userTotalAsset.push(newObj);
-                            obj.userId = resList[i].id
-                            obj.username = resList[i].username;
-                            obj.walletAddress = resList[i].wallet_address
-                            obj.totalAsset = resList[i].amount + resList[i].cash_balance;
-                            userTotalAsset.push(obj);
-                    } else {
-                        obj.totalAsset += resList[i].amount;
-                        userTotalAsset.push(obj);
-                    }
-                }
-
-            
-
-            }
-          
-        } catch (error) {
-            
+        for (let asset of assetList) {
+            const res = await this.folioService.getStockPrice(asset.symbol);
+            let list = {
+                ...asset,
+                amount: (parseFloat(asset.num_shares) * res.c).toFixed(2),
+                sharePrice: res.c
+            };
+            resList.push(list);
         }
-        // const groupedList = groupBy(resList, "id")
-        userTotalAsset.sort((a,b) => b.totalAsset - a.totalAsset);
-        console.log("userTotalAsset", userTotalAsset)
 
-        return userTotalAsset;
+        console.log("resList", resList);
+
+        const userTotalAssetMap = new Map();
+
+        for (const asset of resList) {
+            const amount = parseFloat(asset.amount);
+
+            if (userTotalAssetMap.has(asset.id)) {
+                userTotalAssetMap.set(asset.id, userTotalAssetMap.get(asset.id) + amount);
+            } else {
+                userTotalAssetMap.set(asset.id, amount + parseFloat(asset.cash_balance));
+            }
+        }
+
+        for (const [userId, totalAsset] of userTotalAssetMap.entries()) {
+            userTotalAsset.push({
+                userId: userId,
+                totalAsset: totalAsset,
+                username: resList.find(asset => asset.id === userId).username,
+                walletAddress: resList.find(asset => asset.id === userId).wallet_address
+            });
+        }
+
+        userTotalAsset.sort((a, b) => b.totalAsset - a.totalAsset);
+
+    } catch (error) {
+        // Handle the error
+        console.error(error);
+    }
+
+    console.log("userTotalAsset", userTotalAsset);
+
+    return userTotalAsset;
+
     }
 
     async issueNFt() {

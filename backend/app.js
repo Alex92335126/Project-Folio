@@ -25,10 +25,13 @@ const { METHODS } = require("http");
 
 //Setup Modules
 const app = express();
-app.use(cors({
-    origin: "https://gamefolio.net",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-}));
+// app.use(cors({
+//     origin: "https://gamefolio.net",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// }));
+
+app.use(cors())
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

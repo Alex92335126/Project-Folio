@@ -11,7 +11,6 @@ class FolioRouters {
       router.get("/cash", this.getCashPortfolio.bind(this));
       router.get("/asset", this.getAssetPortfolio.bind(this));
       router.post("/buy", this.postBuyOrder.bind(this));
-   
       router.put("/sell", this.putSellOrder.bind(this));
       return router;
     }

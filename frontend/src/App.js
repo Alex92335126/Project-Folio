@@ -22,8 +22,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/game" element={<Game />}></Route>
-          <Route path="/portfolio" 
-            element={
+          <Route path="/portfolio" element={
             <RequireAuth>
               <Portfolio />
             </RequireAuth>

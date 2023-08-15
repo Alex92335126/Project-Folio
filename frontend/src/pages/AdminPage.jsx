@@ -65,6 +65,12 @@ const nftImage = [
         title: 'Consolation Prize',
         tokenUrl: "https://gdnx52ynjcxdiocja6mmvn7o5bvnmu2hwyjif7xk2fifw6gyipgq.arweave.net/MNt-6w1IrjQ4SQeYyrfu6GrWU0e2EoL-6tFQW3jYQ80"
     },
+    {
+        id: 11,
+        url: 'https://yyc5nb46wlo7di4xbxoxbxeqhhv732yns6njelq5lm32t755pqya.arweave.net/xgXWh56y3fGjlw3dcNyQOev96w2XmpIuHVs3qf-9fDA',
+        title: 'Consolation Prize',
+        tokenUrl: "https://ynetmqzk5epak7tsaflkkupsjsjysbjjlssuesmpaxw66yu6w4zq.arweave.net/w0k2QyrpHgV-cgFWpVHyTJOJBSlcpUJJjwXt72KetzM"
+    },
 ]
 
 export default function AdminPage() {
